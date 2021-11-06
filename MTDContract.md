@@ -12,3 +12,4 @@ However if a team member is habitually not completing their tasks, they may be a
 
 Name: Arnav Shah NetID: arnavss2
 Name: Madhu Vakkadala NetID: mv16
+Name: Tina Banthia NetID: tinajb2
