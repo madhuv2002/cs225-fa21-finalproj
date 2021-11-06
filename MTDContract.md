@@ -10,6 +10,6 @@
 However if a team member is habitually not completing their tasks, they may be asked – politely – to explain their circumstances. Based on their explanation further actions, such as alerting a staff member, may be taken on a case by case basis decided by the other team members. 
 3. **Conflict Resolution**: All conflicts within the team will be decided by a Rock Paper Scissors shoutout. The winner will decide who was right and who was wrong (Might makes right). 
 
-Name: Arnav Shah NetID: arnavss2
-Name: Madhu Vakkadala NetID: mv16
-Name: Tina Banthia NetID: tinajb2
+Name: Arnav Shah NetID: arnavss2  
+Name: Madhu Vakkadala NetID: mv16  
+Name: Tina Banthia NetID: tinajb2  
