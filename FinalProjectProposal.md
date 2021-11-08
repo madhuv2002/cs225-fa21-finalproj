@@ -15,8 +15,8 @@ In order to limit the number of outcomes from our implementation and have a more
 
 **Timeline**:   
 - 10th November: Data acquisition and data processing
-- 17th Novemeber: Make a graph
-- 28th Novemeber: Implement BFS and Dijkstra's algorithm
+- 17th November: Make a graph
+- 24th November: Implement BFS and Dijkstra's algorithm
 - 1st December: Create a graph visualization
 - 8th December: Finish project (review code base and organize)
 - 13th December: Make any final changes, create a README.md and prepare the final presentation
