@@ -10,8 +10,8 @@ In the graph structure, nodes would represent the stops and edges represent the 
 In order to limit the number of outcomes from our implementation and have a more practical solution, we decided to cap the elapsed time to walk between two stops or set a limit on the distance that the user will travel on foot. 
 
 **Graph Algorithms**:   
-- BFS and Dijkstra’s algorithm for finding the shortest path between bus stops with weighted edges (routes). The weighted edges will be the amount of time needed to travel between two locations.
-- We will implement a graphic output of our graph which would look like an MTD map with bus stops with more connectivity represented as bigger nodes and edges with more bus routes on it would be thicker. Our output will be a PNG image that is overlayed over an actual map, with the route the user needs to take to reach their destination highlighted.
+- BFS and Dijkstra’s algorithm for finding the shortest path between bus stops with weighted edges (routes). The weighted edges will be the amount of time needed to travel between two locations. The algorithm would take in the stop ids as the parameters. The runtime should be O(VlogV+E).
+- We will implement a visualization of our graph which would look like an MTD map. Bigger nodes represent bus stops with more connectivity and thicker edges represent more bus routes. Our output will be a PNG image that is overlayed over an actual map, with the route the user needs to take to reach their destination highlighted. The runtime for the visualization would be O(V+E).
 
 **Timeline**:   
 - 10th November: Data acquisition and data processing
