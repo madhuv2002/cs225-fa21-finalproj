@@ -4,14 +4,14 @@
 - This would be a general search tool that can be utilized by users of the MTD bus system. 
 
 **Dataset Acquisition and Processing**:   
-- We have chosen the MTD dataset (https://developer.cumtd.com/gtfs/google_transit.zip). We will download the dataset from the MTD developer resources website, parse JSON files to .txt files and use those files for our project.
+- We have chosen the MTD dataset (https://developer.cumtd.com/gtfs/google_transit.zip). We will download the dataset from the MTD developer resources website, parse JSON files to .txt files and use those files for our project.   
 In the graph structure, nodes would represent the stops and edges represent the routes between two subsequent stops.
-- We would make sure that the data is valid before we use it in our functions. If we have any invalid data, we plan to omit it entirely before using it in our implementation. Invalid here refers to any NULL or empty values as well as format issues with the data.
+- We would make sure that the data is valid before we use it in our functions. If we have any invalid data, we plan to omit it entirely before using it in our implementation. Invalid here refers to any NULL or empty values as well as format issues with the data.   
 In order to limit the number of outcomes from our implementation and have a more practical solution, we decided to cap the elapsed time to walk between two stops or set a limit on the distance that the user will travel on foot. 
 
 **Graph Algorithms**:   
 - BFS and Dijkstra’s algorithm for finding the shortest path between bus stops with weighted edges (routes). The weighted edges will be the amount of time needed to travel between two locations.
-- We will implement a graphic output of our graph which would look like an MTD map with bus stops with more connectivity represented as bigger nodes and edges with more bus routes on it would be thicker. 
+- We will implement a graphic output of our graph which would look like an MTD map with bus stops with more connectivity represented as bigger nodes and edges with more bus routes on it would be thicker. Our output will be a PNG image that is overlayed over an actual map, with the route the user needs to take to reach their destination highlighted.
 
 **Timeline**:   
 - 10th November: Data acquisition and data processing
