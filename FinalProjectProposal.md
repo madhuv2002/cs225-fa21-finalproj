@@ -4,7 +4,7 @@
 - This would be a general search tool that can be utilized by users of the MTD bus system. 
 
 **Dataset Acquisition and Processing**:   
-- We have chosen the MTD dataset (https://developer.cumtd.com/gtfs/google_transit.zip). We will download the dataset from the MTD developer resources website, parse JSON files to .txt files and use those files for our project.   
+- We have chosen the MTD dataset (https://developer.cumtd.com/gtfs/google_transit.zip). We will download the dataset from the MTD developer resources website, parse JSON files to .txt files using Python, and use those files for our project.   
 In the graph structure, nodes would represent the stops and edges represent the routes between two subsequent stops.
 - We would make sure that the data is valid before we use it in our functions. If we have any invalid data, we plan to omit it entirely before using it in our implementation. Invalid here refers to any NULL or empty values as well as format issues with the data.   
 In order to limit the number of outcomes from our implementation and have a more practical solution, we decided to cap the elapsed time to walk between two stops or set a limit on the distance that the user will travel on foot. 
