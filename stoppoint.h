@@ -7,6 +7,7 @@ class StopPoint {
     StopPoint();
     StopPoint(std::string code, std::string stop_id, std::string stop_lat, std::string stop_lon, std::string stop_name);
     std::string getStopName();
+    std::string getStopID();
 
     private:
     std::string code_;

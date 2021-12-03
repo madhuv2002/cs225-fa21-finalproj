@@ -14,3 +14,7 @@ StopPoint::StopPoint(std::string code, std::string stop_id, std::string stop_lat
 std::string StopPoint::getStopName() {
     return stop_name_;
 }
+
+std::string StopPoint::getStopID() {
+    return stop_id_;
+}
