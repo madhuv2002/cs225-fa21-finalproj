@@ -6,8 +6,6 @@ using namespace std;
 
 class Edge {
   public:
-    StopPoint start;
-    StopPoint end; 
     /**
      * Edge constructor.
      * @param begin - starting point
@@ -20,6 +18,18 @@ class Edge {
      */
     Edge();
 
+    void setStartPoint(StopPoint t);
+    StopPoint getStartPoint();
+
+    void setEndPoint(StopPoint t);
+    StopPoint getEndPoint();
+
+    void setWeight(double t);
+    double getWeight();
+
 private:
-    string name; 
+    string name_; 
+    StopPoint start_;
+    StopPoint end_; 
+    double weight_;
 };
