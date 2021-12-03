@@ -21,7 +21,7 @@ void RouteMap::loadNode(string fileName) {
     // testing it out with stops file first
     std::ifstream file;
 
-    file.open("stops.csv");
+    file.open(fileName);
 
     if (file.is_open()) {
         for (std::string line; std::getline(file, line); ) {
@@ -48,7 +48,7 @@ void RouteMap::loadNode(string fileName) {
                      //std::cout << slicedStop.at(count) << '\n';
                     StopPoint stp(slicedStop.at(count), slicedStop.at(count + 1), slicedStop.at(count + 2),
                      slicedStop.at(count + 3), slicedStop.at(count + 4));
-                     airportMap.insert({slicedStop.at(count), stp});
+                     vertexMap.insert({slicedStop.at(count), stp});
                      
                     count += 5;
                 } else {
@@ -59,4 +59,12 @@ void RouteMap::loadNode(string fileName) {
         }
     }
    
+}
+
+void RouteMap::loadEdges() {
+    
+}
+
+void RouteMap::loadEdges(std::string fileName) {
+
 }
