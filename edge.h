@@ -13,7 +13,7 @@ class Edge {
      * @param begin - starting point
      * @param final - ending point
      */
-    Edge(StopPoint begin, StopPoint final);
+    Edge(StopPoint begin_, StopPoint final_);
 
     /**
      * Default constructor.
