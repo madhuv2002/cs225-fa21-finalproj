@@ -1,5 +1,4 @@
 #include "stoppoint.h"
-#include "stop.h"
 #include "routemap.h"
 #include <fstream>
 #include <string>

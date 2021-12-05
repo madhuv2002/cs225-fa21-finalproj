@@ -1,5 +1,5 @@
 EXENAME = main
-OBJS = main.o routemap.o stoppoint.o stop.o
+OBJS = main.o routemap.o stoppoint.o
 
 CXX = clang++
 CXXFLAGS = -std=c++0x -c -g -O0 -Wall
