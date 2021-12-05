@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include <stoppoint.h>
+#include "stoppoint.h"
 using namespace std;
 
 class Edge {

@@ -68,3 +68,13 @@ void RouteMap::loadEdges() {
 void RouteMap::loadEdges(std::string fileName) {
 
 }
+
+double RouteMap::calculateWeights(std::string departureTime, std::string arrivalTime) {
+    std::vector<std::string> slicedDepTime =  tokenize(departureTime, ":");
+    std::vector<std::string> slicedArrTime =  tokenize(arrivalTime, ":");
+
+    double dep = (std::stod(slicedDepTime.at(0))*60) + std::stod(slicedDepTime.at(1)) + ((double)std::stod(slicedDepTime.at(2)) / 60);
+    double arr = (std::stod(slicedArrTime.at(0))*60) + std::stod(slicedArrTime.at(1)) + ((double)std::stod(slicedArrTime.at(2)) / 60); 
+
+    return arr - dep;
+}
