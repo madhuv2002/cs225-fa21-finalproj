@@ -3,8 +3,8 @@
 
 using namespace std;
 
-Edge::Edge(StopPoint begin_, StopPoint final_)
-    : start_(begin_), end_(final_), name_(start_.getStopID() + end_.getStopID()), weight_(1)
+Edge::Edge(StopPoint start, StopPoint end, double weight)
+    : start_(start), end_(end), name_(start_.getStopID() + end_.getStopID()), weight_(weight)
 { }
 
 Edge::Edge() : start_(), end_(), name_(""), weight_(0)

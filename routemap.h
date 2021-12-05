@@ -14,4 +14,5 @@ class RouteMap {
          //std::vector<std::string> tokenize(string s, string del = " ");
         void loadEdges();
         void loadEdges(std::string fileName);
+        double calculateWeights(std::string departureTime, std::string arrivalTime);
 };
