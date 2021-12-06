@@ -13,8 +13,8 @@ class StopPoint {
     private:
     std::string code_;
     std::string stop_id_;
-    std::string stop_lat_;
-    std::string stop_lon_;
+    double stop_lat_;
+    double stop_lon_;
     std::string stop_name_;
 
 };

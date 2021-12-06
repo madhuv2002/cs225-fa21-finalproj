@@ -1,4 +1,5 @@
 #include "routemap.h"
+#include <vector>
 
 using namespace std;
 
@@ -45,10 +46,18 @@ void RouteMap::loadNode(string fileName) {
 
             while (count < slicedStop.size()) {
                 if (count > 3 && (count + 5) < slicedStop.size() && !slicedStop.at(count).empty()) {
-                     //std::cout << slicedStop.at(count) << '\n';
-                    StopPoint stp(slicedStop.at(count), slicedStop.at(count + 1), slicedStop.at(count + 2),
-                     slicedStop.at(count + 3), slicedStop.at(count + 4));
-                     vertexMap.insert({slicedStop.at(count), stp});
+                    // double lat = std::stod(slicedStop.at(count + 2));
+                    // // lat += 1;
+                    //  std::cout << slicedStop.at(count + 2) << '\n';
+                     try {
+
+                    StopPoint stp(slicedStop.at(count), slicedStop.at(count + 1), std::stod(slicedStop.at(count + 2)),
+                     std::stod(slicedStop.at(count + 3)), slicedStop.at(count + 4));
+                     vertexMap.insert({slicedStop.at(count + 1), stp});
+                     }
+                     catch (std::invalid_argument e) {
+                         std::cout << slicedStop.at(count + 2) <<std::endl;
+                     }
                      
                     count += 5;
                 } else {
@@ -61,12 +70,38 @@ void RouteMap::loadNode(string fileName) {
    
 }
 
+
 void RouteMap::loadEdges() {
-    
+    // for all file in assets/trips
+    // loadedges(file)
 }
 
 void RouteMap::loadEdges(std::string fileName) {
+    std::ifstream file;
 
+    file.open(fileName);
+    if (file.is_open()) {
+        for (std::string line; std::getline(file, line); ) {
+            // uncomment to view every stop
+            //std::cout << line << '\n';
+
+            std::vector<std::string> slicedTime1 =  tokenize(line, ",");
+            std::getline(file, line);
+            std::vector<std::string> slicedStop1 = tokenize(line, ",");
+            std::getline(file, line);
+            std::vector<std::string> slicedTime2 =  tokenize(line, ",");
+            std::getline(file, line);
+            std::vector<std::string> slicedStop2 = tokenize(line, ",");
+
+            std::string name_ = slicedStop1[1] + slicedStop2[1];
+            StopPoint stp1(slicedStop1[0], slicedStop1[1], slicedStop1[2], slicedStop1[3]);
+            StopPoint stp2(slicedStop2[0], slicedStop2[1], slicedStop2[2], slicedStop2[3]);
+            double weight = calculateWeights(slicedTime1[1], slicedTime2[0]);
+
+            Edge edge(stp1, stp2, weight);
+            edgeMap.insert({name_, edge});
+        }
+    }
 }
 
 double RouteMap::calculateWeights(std::string departureTime, std::string arrivalTime) {

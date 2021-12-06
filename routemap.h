@@ -4,7 +4,6 @@
 #include <iostream>
 #include <fstream>
 #include "stoppoint.h"
-#include "stop.h"
 #include "edge.h"
 
 class RouteMap {
