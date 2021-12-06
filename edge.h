@@ -26,6 +26,7 @@ class Edge {
 
     void setWeight(double t);
     double getWeight();
+    bool operator==(const Edge& rhs) const;
 
 private:
     string name_; 

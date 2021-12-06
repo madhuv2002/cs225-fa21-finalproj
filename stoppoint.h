@@ -6,6 +6,7 @@ class StopPoint {
     public:
     StopPoint();
     StopPoint(std::string code, std::string stop_id, std::string stop_lat, std::string stop_lon, std::string stop_name);
+    bool operator==(const StopPoint& rhs) const;
     std::string getStopName();
     std::string getStopID();
 

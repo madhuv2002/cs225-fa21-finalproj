@@ -33,3 +33,8 @@ void Edge::setWeight(double t) {
 double Edge::getWeight() {
     return weight_;
 }
+
+bool Edge::operator==(const Edge& rhs) const {
+   return name_ == rhs.name_ && start_ == rhs.start_ 
+    && end_ == rhs.end_ && weight_ == rhs.weight_; 
+}
