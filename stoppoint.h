@@ -9,6 +9,8 @@ class StopPoint {
     bool operator==(const StopPoint& rhs) const;
     std::string getStopName();
     std::string getStopID();
+    double getStopLatitude();
+    double getStopLongitude();
 
     private:
     std::string code_;
