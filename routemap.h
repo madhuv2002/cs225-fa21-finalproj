@@ -1,18 +1,29 @@
 #pragma once 
+
 #include <string>
 #include <map>
 #include <iostream>
 #include <fstream>
+#include <list>
+#include <vector>
+
 #include "stoppoint.h"
 #include "edge.h"
 
+using namespace std;
+
 class RouteMap {
     public:
-        map<std::string, StopPoint> vertexMap;
-        void loadNode(std::string fileName);
-        map<std::string, Edge> edgeMap;
-         //std::vector<std::string> tokenize(string s, string del = " ");
+        void loadNode(string fileName);
         void loadEdges();
-        void loadEdges(std::string fileName);
-        double calculateWeights(std::string departureTime, std::string arrivalTime);
+        map<StopPoint, list<Edge>> getVertexMap();
+        map<string, Edge> getEdgeMap();
+
+    private:
+        map<StopPoint, list<Edge>> vertexMap;
+        map<string, Edge> edgeMap;
+
+        vector<string> tokenize(string s, string del = " ");
+        double calculateWeights(string departureTime, string arrivalTime);
+        void loadEdges(string fileName);
 };

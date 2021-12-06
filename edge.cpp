@@ -1,13 +1,13 @@
 #include <string>
-#include <edge.h>
+#include "edge.h"
 
 using namespace std;
 
-Edge::Edge(StopPoint start, StopPoint end, double weight)
-    : start_(start), end_(end), name_(start_.getStopID() + end_.getStopID()), weight_(weight)
+Edge::Edge(StopPoint start, StopPoint end, double weight, string route)
+    : start_(start), end_(end), name_(start_.getStopID() + end_.getStopID()), weight_(weight), route_(route)
 { }
 
-Edge::Edge() : start_(), end_(), name_(""), weight_(0)
+Edge::Edge() : start_(), end_(), name_(""), weight_(0), route_("")
 { }
 
 void Edge::setStartPoint(StopPoint t) {
@@ -32,4 +32,12 @@ void Edge::setWeight(double t) {
 
 double Edge::getWeight() {
     return weight_;
+}
+
+void Edge::setRoute(string route) {
+    route_ = route;
+}
+
+string Edge::getRoute() {
+    return route_;
 }
