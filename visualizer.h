@@ -22,7 +22,7 @@ class Visualizer {
     cs225::PNG draw();
     void findLocation(RouteMap map);
     double calculateWeight(StopPoint point, RouteMap map);
-    private:
+
     map<StopPoint, std::pair<double, double>> pointsMap;
     std::pair<double, double> origin;
     std::pair<double, double> endpoint;

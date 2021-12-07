@@ -30,7 +30,8 @@ void Visualizer::findLocation(RouteMap map) {
      origin = make_pair(minLat, minLon);
 
     // find the scale factor 
-    scaleFactor = make_pair((double) 800 /(maxLat - minLat), (double) 800 /(maxLon - minLon));
+    scaleFactor.first = (double) 800 / (maxLat - minLat);
+    scaleFactor.second = (double) 800 / (maxLon - minLon);
 
     // find the minimum distance bwetween two points and scale that distance in order to create the displacement point
 
@@ -49,8 +50,8 @@ void Visualizer::findLocation(RouteMap map) {
     }
 
     //set endpoint
-    endpoint.first = (maxLat*scaleFactor.first) + (2*displacement.first);
-    endpoint.second = (maxLat*scaleFactor.second) + (2*displacement.second);
+    endpoint.first = ((maxLat - origin.first)*scaleFactor.first) + (2*displacement.first);
+    endpoint.second = ((maxLat - origin.second)*scaleFactor.second) + (2*displacement.second);
 
     // set the locations 
     for (auto pair : map.getVertexMap()) {
