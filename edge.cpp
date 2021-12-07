@@ -3,12 +3,20 @@
 
 using namespace std;
 
-Edge::Edge(StopPoint start, StopPoint end, double weight, string route)
-    : start_(start), end_(end), name_(start_.getStopID() + end_.getStopID()), weight_(weight), route_(route)
+Edge::Edge(string name, StopPoint start, StopPoint end, double weight, string route)
+    : name_(name), start_(start), end_(end), weight_(weight), route_(route)
 { }
 
-Edge::Edge() : start_(), end_(), name_(""), weight_(0), route_("")
+Edge::Edge() : name_(""), start_(), end_(), weight_(0.0), route_("")
 { }
+
+void Edge::setName(string name) {
+    name_ = name;
+}
+
+string Edge::getName() {
+    return name_;
+}
 
 void Edge::setStartPoint(StopPoint t) {
     start_ = t;
@@ -40,4 +48,9 @@ void Edge::setRoute(string route) {
 
 string Edge::getRoute() {
     return route_;
+}
+
+bool Edge::operator==(const Edge& rhs) const {
+   return name_ == rhs.name_ && start_ == rhs.start_ 
+    && end_ == rhs.end_ && weight_ == rhs.weight_; 
 }

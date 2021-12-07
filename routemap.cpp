@@ -21,8 +21,8 @@ void RouteMap::loadNode(string fileName) {
 
                     StopPoint stp(slicedStop[count], slicedStop[count + 1], stod(slicedStop[count + 2]),
                      stod(slicedStop[count + 3]), slicedStop[count + 4]);
-                    list<Edge> edges;
-                    vertexMap.insert({stp, edges});
+                    vector<Edge> edges;
+                    vertexMap.insert({slicedStop[count + 1], make_pair(stp, edges)});
                      
                     count += 5;
                 } else {
@@ -42,34 +42,45 @@ void RouteMap::loadEdges() {
     file.open("./assets/trip_names.txt");
     if (file.is_open()) {
         for (string line; getline(file, line); ) {
-            loadEdges("./assets/" + line);
+            loadEdges("./assets/trips/" + line);
         }
     }
 }
 
-void RouteMap::loadEdges(std::string fileName) {
+map<string, pair<StopPoint, vector<Edge>>> RouteMap::getVertexMap() {
+    return vertexMap;
+}
+
+map<string, Edge> RouteMap::getEdgeMap() {
+    return edgeMap;
+}
+
+void RouteMap::loadEdges(string fileName) {
     ifstream file;
 
     file.open(fileName);
     if (file.is_open()) {
-        for (string line; getline(file, line); ) {
-
-            vector<string> slicedTime1 =  tokenize(line, ",");
-            getline(file, line);
-            vector<string> slicedStop1 = tokenize(line, ",");
-            getline(file, line);
+        string line;
+        getline(file, line);
+        vector<string> slicedTime1 =  tokenize(line, ",");
+        getline(file, line);
+        vector<string> slicedStop1 = tokenize(line, ",");
+        while (getline(file, line)) {
             vector<string> slicedTime2 =  tokenize(line, ",");
             getline(file, line);
             vector<string> slicedStop2 = tokenize(line, ",");
-
-            string name_ = slicedStop1[1] + slicedStop2[1];
+            
+            string name = slicedStop1[1] + slicedStop2[1] + fileName;
             StopPoint stp1(slicedStop1[0], slicedStop1[1], stod(slicedStop1[2]), stod(slicedStop1[3]), slicedStop1[4]);
             StopPoint stp2(slicedStop2[0], slicedStop2[1], stod(slicedStop2[2]), stod(slicedStop2[3]), slicedStop2[4]);
             double weight = calculateWeights(slicedTime1[1], slicedTime2[0]);
+            Edge edge(name, stp1, stp2, weight, fileName);
+            
+            edgeMap.insert({name, edge});
+            vertexMap[slicedStop1[1]].second.push_back(edge);
 
-            Edge edge(stp1, stp2, weight, fileName);
-            edgeMap.insert({name_, edge});
-            vertexMap[stp1].push_back(edge);
+            slicedTime1 = slicedTime2;
+            slicedStop1 = slicedStop2;
         }
     }
 }

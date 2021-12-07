@@ -8,7 +8,7 @@ int main() {
     RouteMap map; 
     map.loadNode("./assets/stops.csv");
     map.loadEdges();
-    // std::cout << map.vertexMap["1STHZLWD:2"].getStopName();
-    // std::cout << map.calculateWeights("08:08:30", "08:10:30");
+    cout << map.getEdgeMap().size() << endl;
+    cout << map.getEdgeMap()["JOHNLYN:3JOHNPRRE:3./assets/trips/BLUE.txt"].getWeight() << endl;
     return 0;
 }

@@ -15,6 +15,7 @@ class StopPoint {
         string getStopName();
 
         bool operator <(const StopPoint& rhs) const {return stop_id_ < rhs.stop_id_;}
+        bool operator==(const StopPoint& rhs) const;
 
     private:
         string code_;
