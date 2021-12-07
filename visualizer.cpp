@@ -30,8 +30,8 @@ void Visualizer::findLocation(RouteMap map) {
      origin = make_pair(minLat, minLon);
 
     // find the scale factor 
-    scaleFactor.first = (double) 800 / (maxLat - minLat);
-    scaleFactor.second = (double) 800 / (maxLon - minLon);
+    scaleFactor.first = (double) 1000 / (maxLat - minLat);
+    scaleFactor.second = (double) 1200 / (maxLon - minLon);
 
     // find the minimum distance bwetween two points and scale that distance in order to create the displacement point
 
@@ -44,21 +44,21 @@ void Visualizer::findLocation(RouteMap map) {
 
         if (dist < minDistance && dist > 0) {
             minDistance = dist;
-            displacement.first = stop.getStopLatitude() - origin.first;
-            displacement.second = stop.getStopLongitude() - origin.second;
+            displacement.first = (stop.getStopLatitude() - origin.first)*scaleFactor.first;
+            displacement.second = (stop.getStopLongitude() - origin.second)*scaleFactor.second;
         }
     }
 
     //set endpoint
-    endpoint.first = ((maxLat - origin.first)*scaleFactor.first) + (2*displacement.first);
-    endpoint.second = ((maxLat - origin.second)*scaleFactor.second) + (2*displacement.second);
+    endpoint.first = ((maxLat - origin.first)*scaleFactor.first) + (1.25*displacement.first);
+    endpoint.second = ((maxLon - origin.second)*scaleFactor.second) + (1.25*displacement.second);
 
     // set the locations 
     for (auto pair : map.getVertexMap()) {
         StopPoint stop = pair.second.first;
         std::pair<double, double> point;
-        point.first = (stop.getStopLatitude()*scaleFactor.first) + displacement.first;
-        point.second = (stop.getStopLongitude()*scaleFactor.second) + displacement.second;
+        point.first = ((stop.getStopLatitude() - origin.first)*scaleFactor.first) + displacement.first;
+        point.second = ((stop.getStopLongitude() - origin.second)*scaleFactor.second) + displacement.second;
 
         pointsMap.insert({stop, point});
     }

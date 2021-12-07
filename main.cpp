@@ -17,6 +17,9 @@ int main() {
     v.findLocation(map);
     // cout << v.origin.first << std::endl;
     // cout << v.endpoint.first << std::endl;
-    // cout << v.scaleFactor.first << std::endl;
+    for (auto pair : v.pointsMap) {
+        cout << pair.second.first << " " << pair.second.second << std::endl;
+    }
+    cout << v.endpoint.first - v.origin.first << "  " << v.endpoint.second - v.origin.second << std::endl;
     return 0;
 }
