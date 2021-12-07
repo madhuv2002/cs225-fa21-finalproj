@@ -27,6 +27,14 @@ string StopPoint::getStopName() {
     return stop_name_;
 }
 
+double StopPoint::getStopLatitude() {
+    return stop_lat_;
+}
+
+double StopPoint::getStopLongitude() {
+    return stop_lon_;
+}
+
 bool StopPoint::operator==(const StopPoint& rhs) const {
    return code_ == rhs.code_ && stop_id_ == rhs.stop_id_ 
     && stop_lat_ == rhs.stop_lat_ && stop_lon_ == rhs.stop_lon_ 
