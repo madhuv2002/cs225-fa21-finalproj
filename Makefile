@@ -1,6 +1,7 @@
 EXENAME = main
 OBJS = main.o routemap.o stoppoint.o edge.o visualizer.o
-
+# Use the cs225 makefile template:
+include cs225/make/cs225.mk
 CXX = clang++
 CXXFLAGS = -std=c++0x -c -g -O0 -Wall
 LD = clang++

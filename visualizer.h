@@ -19,7 +19,7 @@ class Visualizer {
     public:
     // distance, set location for all the points, draw, map of node to points, 
     // function to calculate weight of node 
-    cs225::PNG draw();
+    cs225::PNG* draw() const;
     void findLocation(RouteMap map);
     double calculateWeight(StopPoint point, RouteMap map);
 
