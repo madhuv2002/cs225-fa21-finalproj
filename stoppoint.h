@@ -10,8 +10,8 @@ class StopPoint {
         StopPoint(string code, string stop_id, double stop_lat, double stop_lon, string stop_name);
         
         string getStopID();
-        double getStopLat();
-        double getStopLon();
+        double getStopLatitude();
+        double getStopLongitude();
         string getStopName();
 
         bool operator <(const StopPoint& rhs) const {return stop_id_ < rhs.stop_id_;}

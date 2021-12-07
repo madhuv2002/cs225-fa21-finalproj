@@ -8,7 +8,7 @@ void Visualizer::setLocation(RouteMap map) {
     double maxLat = INT_MIN;
     double maxLon = INT_MIN;
 
-     for (StopPoint stop : map.getVertexMap().keySet()) {
+     for (StopPoint stop : map.getVertexMap().values().first) {
          if (stop.getStopLatitude() < minLat) {
              minLat = stop.getStopLatitude();
          }
@@ -35,7 +35,7 @@ void Visualizer::setLocation(RouteMap map) {
 
     double minDistance = INT_MAX;
 
-    for (StopPoint stop : map.getVertexMap().keySet()) {
+    for (StopPoint stop : map.getVertexMap().values().first) {
         double dist = sqrt((pow((stop.getStopLatitude() - origin.first)), 2.0)) + 
                             (pow((stop.getStopLongitude() - origin.second), 2.0)));
 
@@ -51,7 +51,7 @@ void Visualizer::setLocation(RouteMap map) {
     endpoint.second = (maxLat*scaleFactor.second) + (2*displacement.second);
 
     // set the locations 
-    for (StopPoint stop : map.getVertexMap().keySet()) {
+    for (StopPoint stop : map.getVertexMap().values().first) {
         double x = (stop.getStopLatitude()*scaleFactor.first) + displacement.first;
         double y = (stop.getStopLongitude()*scaleFactor.second) + displacement.second;
         pointsMap.insert({stop, std::make_pair(x, y)});

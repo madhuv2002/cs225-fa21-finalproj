@@ -15,24 +15,16 @@ string StopPoint::getStopID() {
     return stop_id_;
 }
 
-double StopPoint::getStopLat() {
-    return stop_lat_;
-}
-
-double StopPoint::getStopLon() {
-    return stop_lon_;
-}
-
-string StopPoint::getStopName() {
-    return stop_name_;
-}
-
 double StopPoint::getStopLatitude() {
     return stop_lat_;
 }
 
 double StopPoint::getStopLongitude() {
     return stop_lon_;
+}
+
+string StopPoint::getStopName() {
+    return stop_name_;
 }
 
 bool StopPoint::operator==(const StopPoint& rhs) const {
