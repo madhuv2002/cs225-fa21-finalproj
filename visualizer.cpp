@@ -57,3 +57,8 @@ void Visualizer::setLocation(RouteMap map) {
         pointsMap.insert({stop, std::make_pair(x, y)});
     }
 }
+
+double Visualizer::calculateWeight(StopPoint point, RouteMap map) {
+    // increment weight by the number of edges coming out of the passed stop point
+    return map.getVertexMap()[point.getStopName()].second.size();
+}
