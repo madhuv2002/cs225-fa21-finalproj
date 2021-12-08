@@ -38,13 +38,16 @@ void RouteMap::loadNode(string fileName) {
 
 void RouteMap::loadEdges() {
     ifstream file;
-
+    vector<string> fileNames;
     file.open("./assets/trip_names.txt");
     if (file.is_open()) {
         for (string line; getline(file, line); ) {
+            // cout << line << std::endl;
+            
             loadEdges("./assets/trips/" + line);
         }
     }
+    file.close();
 }
 
 map<string, pair<StopPoint, vector<Edge>>> RouteMap::getVertexMap() {
@@ -59,7 +62,9 @@ void RouteMap::loadEdges(string fileName) {
     ifstream file;
 
     file.open(fileName);
+    //cout << fileName << endl;
     if (file.is_open()) {
+        cout << fileName << endl;
         string line;
         getline(file, line);
         vector<string> slicedTime1 =  tokenize(line, ",");
@@ -77,12 +82,16 @@ void RouteMap::loadEdges(string fileName) {
             Edge edge(name, stp1, stp2, weight, fileName);
             
             edgeMap.insert({name, edge});
-            vertexMap[slicedStop1[1]].second.push_back(edge);
+            vector<Edge> edges = vertexMap[slicedStop1[1]].second;
+            edges.push_back(edge);
+            vertexMap[slicedStop1[1]].second = edges;
+            // cout << vertexMap[slicedStop1[1]].second.size() << std::endl;
 
             slicedTime1 = slicedTime2;
             slicedStop1 = slicedStop2;
         }
     }
+    file.close();
 }
 
 vector<string> RouteMap::tokenize(string s, string del) {

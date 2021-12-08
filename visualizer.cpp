@@ -3,6 +3,7 @@
 
 void Visualizer::findLocation(RouteMap map) {
     // figure out the minimum and maximum distances for x and y directions and store them 
+
     double minLat = INT_MAX;
     double minLon = INT_MAX; 
 
@@ -70,7 +71,7 @@ double Visualizer::calculateWeight(StopPoint point, RouteMap map) {
     return map.getVertexMap()[point.getStopName()].second.size();
 }
 
-cs225::PNG* Visualizer::draw() const {
+cs225::PNG* Visualizer::draw(RouteMap map) const {
     cs225::PNG* png = new cs225::PNG(endpoint.first  - origin.first, endpoint.second - origin.second);
     for (auto pair : pointsMap) {
         for (size_t x = pair.second.first - 10; x <= pair.second.first + 10; x++) {
@@ -81,20 +82,30 @@ cs225::PNG* Visualizer::draw() const {
                 png->getPixel(x, y).a = 1;
             }
         }
-
-        // drawEdges(pair);
+        // drawEdges(pair, map, png);
     }
 
     return png;
 }
 
-// void Visualizer::drawEdges(std::pair<StopPoint, std::pair<double, double>> pair) const () {
-//     vector<Edge> edges = map_.getVertexMap().second.second;
+void Visualizer::drawEdges(std::pair<StopPoint, std::pair<double, double>> pair, RouteMap map, cs225::PNG* png) const{
+    vector<Edge> edges = map.getVertexMap()[pair.first.getStopName()].second;
 
-//     for (unsigned int i = 0; i < edges.size(); i++) {
+    for (unsigned int i = 0; i < edges.size(); i++) {
+        StopPoint destination = edges[i].getEndPoint();
+        double endY = pointsMap.at(destination).second;
+        double endX = pointsMap.at(destination).first;
+        //double dist = sqrt(pow((pointsMap[edges.getEndPoint()].first - pointsMap[edges.getStartPoint()].first), 2.0) + pow((pointsMap[edges.getEndPoint()].first - pointsMap[edges.getStartPoint()].second), 2.0));
+        double slope = (double)(endY - pair.second.second)/ (endX - pair.second.first);
 
-//     }
+        for (size_t x = pair.second.first - 3; x <= endX + 3; x++) {
+            for (size_t y = pair.second.second - 3; y <= endY + 3; y+= slope*x) {
+                png->getPixel(x, y).h = 0;
+                png->getPixel(x, y).s = 0;
+                png->getPixel(x, y).l = 0;
+                png->getPixel(x, y).a = 1;
+            }
+        }
+    }
 
-//     double dist = sqrt(pow((stop.getStopLatitude() - origin.first), 2.0) + 
-//                             pow((stop.getStopLongitude() - origin.second), 2.0));
-// }
+}
