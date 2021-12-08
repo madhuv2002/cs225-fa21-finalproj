@@ -31,8 +31,8 @@ void Visualizer::findLocation(RouteMap map) {
      origin = make_pair(minLat, minLon);
 
     // find the scale factor 
-    scaleFactor.first = (double) 8000 / (maxLat - minLat);
-    scaleFactor.second = (double) 12000 / (maxLon - minLon);
+    scaleFactor.first = (double) 4000 / (maxLat - minLat);
+    scaleFactor.second = (double) 5000 / (maxLon - minLon);
 
     // find the minimum distance bwetween two points and scale that distance in order to create the displacement point
 
@@ -81,7 +81,20 @@ cs225::PNG* Visualizer::draw() const {
                 png->getPixel(x, y).a = 1;
             }
         }
+
+        // drawEdges(pair);
     }
 
     return png;
 }
+
+// void Visualizer::drawEdges(std::pair<StopPoint, std::pair<double, double>> pair) const () {
+//     vector<Edge> edges = map_.getVertexMap().second.second;
+
+//     for (unsigned int i = 0; i < edges.size(); i++) {
+
+//     }
+
+//     double dist = sqrt(pow((stop.getStopLatitude() - origin.first), 2.0) + 
+//                             pow((stop.getStopLongitude() - origin.second), 2.0));
+// }

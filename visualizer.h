@@ -23,6 +23,8 @@ class Visualizer {
     void findLocation(RouteMap map);
     double calculateWeight(StopPoint point, RouteMap map);
 
+   
+
     map<StopPoint, std::pair<double, double>> pointsMap;
     std::pair<double, double> origin;
     std::pair<double, double> endpoint;
