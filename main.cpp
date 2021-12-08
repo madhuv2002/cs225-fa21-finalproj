@@ -19,6 +19,7 @@ int main() {
     for (auto pair: v.pointsMap) {
         cout << pair.second.first << " " << pair.second.second << endl;
     }
+    cout << v.endpoint.first  - v.origin.first<< " " << v.endpoint.second - v.origin.second << endl;
     cs225::PNG* png = v.draw();
     png->writeToFile("map.png");
     delete png;

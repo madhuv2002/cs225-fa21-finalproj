@@ -31,8 +31,8 @@ void Visualizer::findLocation(RouteMap map) {
      origin = make_pair(minLat, minLon);
 
     // find the scale factor 
-    scaleFactor.first = (double) 1000 / (maxLat - minLat);
-    scaleFactor.second = (double) 1200 / (maxLon - minLon);
+    scaleFactor.first = (double) 8000 / (maxLat - minLat);
+    scaleFactor.second = (double) 12000 / (maxLon - minLon);
 
     // find the minimum distance bwetween two points and scale that distance in order to create the displacement point
 
@@ -71,7 +71,7 @@ double Visualizer::calculateWeight(StopPoint point, RouteMap map) {
 }
 
 cs225::PNG* Visualizer::draw() const {
-    cs225::PNG* png = new cs225::PNG(1500,1500);
+    cs225::PNG* png = new cs225::PNG(endpoint.first  - origin.first, endpoint.second - origin.second);
     for (auto pair : pointsMap) {
         for (size_t x = pair.second.first - 10; x <= pair.second.first + 10; x++) {
             for (size_t y = pair.second.second - 10; y <= pair.second.second + 10; y++) {
