@@ -31,3 +31,18 @@ https://colab.research.google.com/drive/1Fo-hhbMQ18z2YYZwjAFaFTo68htAuDHC?usp=sh
 ## Notes 12/01
 - Finished acquiring data and uploading it to GitHub
 - Finished processing vertices onto the routeMap
+## Notes 12/03
+- Create edge class with getters and setters 
+- Begin implementation for the map of edges
+## Notes 12/05
+- Implement loadEdges function and edges map
+- Reformat trips file that is parsed in for the edges map
+## Notes 12/06
+- Import the CS225 folder from previous MPS and create skeleton for Visualiser 
+- Create locations for stop points in the visual 
+- Calculate weights for stop points
+## Notes 12/07
+- Implement both the draw() and drawEdges() function
+
+
+
