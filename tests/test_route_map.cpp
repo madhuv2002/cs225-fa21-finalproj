@@ -30,11 +30,21 @@ TEST_CASE("RouteMap tests") {
     }
 
     routeMap.loadEdges();
+    vertexMap = routeMap.getVertexMap();
     map<string, Edge> edgeMap = routeMap.getEdgeMap();
 
     SECTION("edgeMap size") {
         REQUIRE(edgeMap.size() == 4002);
     }
 
-    
+    SECTION("First edge weight") {
+        REQUIRE(vertexMap["1STSMR:4"].second.size() > 0);
+        REQUIRE(edgeMap["1STSMR:41STHZLWD:4./assets/trips/1 YELLOW ALT.txt"].getWeight() == 0.5);
+
+    }
+
+    SECTION("Last edge weight") {
+        REQUIRE(vertexMap["1STSTDM:4"].second.size() > 0);
+        REQUIRE(edgeMap["1STSTDM:4E14:2./assets/trips/YELLOWHOPPER.txt"].getWeight() == 3.5);
+    }
 }
