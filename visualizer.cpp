@@ -62,9 +62,11 @@ void Visualizer::findLocation(RouteMap map) {
         std::pair<double, double> point;
         point.first = ((stop.getStopLatitude() - origin.first)*scaleFactor.first) + displacement.first;
         point.second = ((stop.getStopLongitude() - origin.second)*scaleFactor.second) + displacement.second;
-
+        if (stop.getStopLatitude() != 0 && stop.getStopLongitude() != 0) {
+            pointsMap.insert({stop, point});
+        }
         //cout << point.first << " " << point.second << endl;
-        pointsMap.insert({stop, point});
+        //pointsMap.insert({stop, point});
     }
 }
 
@@ -85,7 +87,7 @@ cs225::PNG* Visualizer::draw() {
                 png->getPixel(x, y).a = 1;
             }
         }
-        drawEdges(pair, png);
+        //drawEdges(pair, png);
     }
 
     return png;
