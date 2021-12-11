@@ -16,6 +16,7 @@ class Traversal {
     private:
         RouteMap route;
 
-        vector<string> BFS(string s);
+       map<string, string> BFS(string s);
+       // map<string, string> Dijkstras(string s);
         
-}
+};

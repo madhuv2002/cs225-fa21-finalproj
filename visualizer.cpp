@@ -110,7 +110,6 @@ void Visualizer::drawEdges(std::pair<StopPoint, std::pair<double, double>> pair,
         if (slope == 0) {
             size_t y = endY;
             if (endX > pair.second.first) {
-                cout << y << endl;
                 for (size_t x = pair.second.first; x <= endX; x++) { 
                     
                     png->getPixel(x, y).h = 0;
@@ -119,7 +118,6 @@ void Visualizer::drawEdges(std::pair<StopPoint, std::pair<double, double>> pair,
                     png->getPixel(x, y).a = 1;
                 }
             } else {
-                cout << << y << endl;
                 for (size_t x = endX; x <= pair.second.first; x++) { 
                     
                     png->getPixel(x, y).h = 0;
