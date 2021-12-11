@@ -24,11 +24,14 @@ class Visualizer {
     void findOrigin();
     void calculateMinDistance();
     double calculateWeight(StopPoint point);
-    void drawEdges(std::pair<StopPoint, std::pair<double, double>> pair, cs225::PNG* png);
+    void drawEdges(std::pair<StopPoint, std::pair<double, double>> pair);
 
     RouteMap routeMap;
     map<string, pair<StopPoint, vector<Edge>>> vertexMap;
     map<StopPoint, std::pair<double, double>> pointsMap;
+
+    cs225::PNG* png;
+
     std::pair<double, double> origin;
     std::pair<double, double> endpoint;
 
