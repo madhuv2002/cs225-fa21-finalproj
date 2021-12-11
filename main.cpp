@@ -8,16 +8,17 @@
 using namespace std;
 
 int main() {
-    RouteMap map; 
-    map.loadNode("./assets/stops.csv");
-    map.loadEdges();
-
+    RouteMap route;
+    route.loadNode("./assets/stops.csv");
+    route.loadEdges();
+    map<string, pair<StopPoint, vector<Edge>>> vertexMap = route.getVertexMap();
+    cout << route.getEdgeMap().size() << endl;
     Visualizer v;
-    v.findLocation(map);
+    v.findLocation(route);
 
-    cs225::PNG* png = v.draw(map);
+    cs225::PNG* png = v.draw();
     png->writeToFile("map.png");
-    delete png;
 
+    delete png;
     return 0;
 }

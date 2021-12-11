@@ -22,7 +22,10 @@ void RouteMap::loadNode(string fileName) {
                     StopPoint stp(slicedStop[count], slicedStop[count + 1], stod(slicedStop[count + 2]),
                      stod(slicedStop[count + 3]), slicedStop[count + 4]);
                     vector<Edge> edges;
-                    vertexMap.insert({slicedStop[count + 1], make_pair(stp, edges)});
+                    std::pair<StopPoint, vector<Edge>> pair;
+                    pair.first = stp;
+                    pair.second = edges;
+                    vertexMap.insert({slicedStop[count + 1], pair});
                      
                     count += 5;
                 } else {
@@ -58,6 +61,8 @@ map<string, Edge> RouteMap::getEdgeMap() {
 
 void RouteMap::loadEdges(string fileName) {
     ifstream file;
+    // fileName = fileName.substr(0, fileName.size()-1);
+    // file.open(fileName, std::ifstream::in);
     file.open(fileName);
     if (file.is_open()) {
         
@@ -76,7 +81,6 @@ void RouteMap::loadEdges(string fileName) {
             StopPoint stp2(slicedStop2[0], slicedStop2[1], stod(slicedStop2[2]), stod(slicedStop2[3]), slicedStop2[4]);
             double weight = calculateWeights(slicedTime1[1], slicedTime2[0]);
             Edge edge(name, stp1, stp2, weight, fileName);
-            
             edgeMap.insert({name, edge});
 
             vertexMap[slicedStop1[1]].second.push_back(edge);
