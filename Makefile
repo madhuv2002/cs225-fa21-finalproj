@@ -1,19 +1,11 @@
-EXENAME = main
-OBJS = main.o routemap.o stoppoint.o edge.o visualizer.o
+# Executable names:
+EXE = main
+TEST = test
+
+# Add all object files needed for compiling:
+EXE_OBJ = main.o 
+CPP_FILES += $(wildcard *.cpp)
+OBJS = main.o $(CPP_FILES:.cpp=.o)
+
 # Use the cs225 makefile template:
 include cs225/make/cs225.mk
-CXX = clang++
-CXXFLAGS = -std=c++0x -c -g -O0 -Wall
-LD = clang++
-LDFLAGS = -std=c++0x
-
-all: $(EXENAME)
-
-$(EXENAME): $(OBJS)
-	$(LD) $^ $(LDFLAGS) -o $@
-
-main.o: main.cpp
-	$(CXX) $< $(CXXFLAGS)
-
-clean:
-	-rm -f *.o $(EXENAME)

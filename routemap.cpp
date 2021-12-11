@@ -16,8 +16,8 @@ void RouteMap::loadNode(string fileName) {
             vector<string> slicedStop =  tokenize(line, ",");
             int count = 0;
 
-            while (count < slicedStop.size()) {
-                if (count > 3 && (count + 5) < slicedStop.size() && !slicedStop.at(count).empty()) {
+            while (count < static_cast<int>(slicedStop.size())) {
+                if (count > 3 && (count + 5) < static_cast<int>(slicedStop.size()) && !slicedStop.at(count).empty()) {
 
                     StopPoint stp(slicedStop[count], slicedStop[count + 1], stod(slicedStop[count + 2]),
                      stod(slicedStop[count + 3]), slicedStop[count + 4]);
@@ -32,7 +32,7 @@ void RouteMap::loadNode(string fileName) {
 
         }
     }
-   
+    file.close();
 }
 
 
@@ -42,8 +42,6 @@ void RouteMap::loadEdges() {
     file.open("./assets/trip_names.txt");
     if (file.is_open()) {
         for (string line; getline(file, line); ) {
-            // cout << line << std::endl;
-            
             loadEdges("./assets/trips/" + line);
         }
     }
@@ -60,11 +58,9 @@ map<string, Edge> RouteMap::getEdgeMap() {
 
 void RouteMap::loadEdges(string fileName) {
     ifstream file;
-
     file.open(fileName);
-    //cout << fileName << endl;
     if (file.is_open()) {
-        cout << fileName << endl;
+        
         string line;
         getline(file, line);
         vector<string> slicedTime1 =  tokenize(line, ",");
@@ -82,10 +78,9 @@ void RouteMap::loadEdges(string fileName) {
             Edge edge(name, stp1, stp2, weight, fileName);
             
             edgeMap.insert({name, edge});
-            vector<Edge> edges = vertexMap[slicedStop1[1]].second;
-            edges.push_back(edge);
-            vertexMap[slicedStop1[1]].second = edges;
-            // cout << vertexMap[slicedStop1[1]].second.size() << std::endl;
+            // vector<Edge> edges = vertexMap[slicedStop1[1]].second;
+            // edges.push_back(edge);
+            vertexMap[slicedStop1[1]].second.push_back(edge);
 
             slicedTime1 = slicedTime2;
             slicedStop1 = slicedStop2;

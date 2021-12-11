@@ -74,6 +74,7 @@ double Visualizer::calculateWeight(StopPoint point, RouteMap map) {
 cs225::PNG* Visualizer::draw(RouteMap map) const {
     cs225::PNG* png = new cs225::PNG(endpoint.first  - origin.first, endpoint.second - origin.second);
     for (auto pair : pointsMap) {
+        // cout << pair.second.first << " " << pair.second.second <<  endl;
         for (size_t x = pair.second.first - 10; x <= pair.second.first + 10; x++) {
             for (size_t y = pair.second.second - 10; y <= pair.second.second + 10; y++) {
                 png->getPixel(x, y).h = 240;
