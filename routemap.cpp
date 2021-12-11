@@ -78,10 +78,9 @@ void RouteMap::loadEdges(string fileName) {
             Edge edge(name, stp1, stp2, weight, fileName);
             
             edgeMap.insert({name, edge});
-            // vector<Edge> edges = vertexMap[slicedStop1[1]].second;
-            // edges.push_back(edge);
-            vertexMap[slicedStop1[1]].second.push_back(edge);
 
+            vertexMap[slicedStop1[1]].second.push_back(edge);
+            
             slicedTime1 = slicedTime2;
             slicedStop1 = slicedStop2;
         }
@@ -92,7 +91,7 @@ void RouteMap::loadEdges(string fileName) {
 vector<string> RouteMap::tokenize(string s, string del) {
     int start = 0;
     int end = s.find(del);
-    vector<std::string> slicedStr;
+    vector<string> slicedStr;
 
     while (end != -1) {
         slicedStr.push_back(s.substr(start, end - start));
