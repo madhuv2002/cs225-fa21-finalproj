@@ -61,8 +61,6 @@ map<string, Edge> RouteMap::getEdgeMap() {
 
 void RouteMap::loadEdges(string fileName) {
     ifstream file;
-    // fileName = fileName.substr(0, fileName.size()-1);
-    // file.open(fileName, std::ifstream::in);
     file.open(fileName);
     if (file.is_open()) {
         
@@ -75,12 +73,14 @@ void RouteMap::loadEdges(string fileName) {
             vector<string> slicedTime2 =  tokenize(line, ",");
             getline(file, line);
             vector<string> slicedStop2 = tokenize(line, ",");
+            string routeName = tokenize(fileName, "/")[3];
+            routeName = routeName.substr(0, routeName.length() - 4);
             
-            string name = slicedStop1[1] + slicedStop2[1] + fileName;
+            string name = slicedStop1[1] + slicedStop2[1] + routeName;
             StopPoint stp1(slicedStop1[0], slicedStop1[1], stod(slicedStop1[2]), stod(slicedStop1[3]), slicedStop1[4]);
             StopPoint stp2(slicedStop2[0], slicedStop2[1], stod(slicedStop2[2]), stod(slicedStop2[3]), slicedStop2[4]);
             double weight = calculateWeights(slicedTime1[1], slicedTime2[0]);
-            Edge edge(name, stp1, stp2, weight, fileName);
+            Edge edge(name, stp1, stp2, weight, routeName);
             edgeMap.insert({name, edge});
 
             vertexMap[slicedStop1[1]].second.push_back(edge);
