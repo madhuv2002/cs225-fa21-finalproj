@@ -95,29 +95,106 @@ cs225::PNG* Visualizer::draw() {
 
 void Visualizer::drawEdges(std::pair<StopPoint, std::pair<double, double>> pair) {
     vector<Edge> edges = vertexMap[pair.first.getStopID()].second;
-     cout << edges.size() << endl;
+    //cout << edges.size() << endl;
     
-    // for (unsigned int i = 0; i < edges.size(); i++) {
-    //     cout << edges.size() << endl;
-    //     StopPoint destination = edges[i].getEndPoint();
-    //     double endY = pointsMap.at(destination).second;
-    //     double endX = pointsMap.at(destination).first;
-    //     //double dist = sqrt(pow((pointsMap[edges.getEndPoint()].first - pointsMap[edges.getStartPoint()].first), 2.0) + pow((pointsMap[edges.getEndPoint()].first - pointsMap[edges.getStartPoint()].second), 2.0));
-    //     double slope = (double)(endY - pair.second.second)/ (endX - pair.second.first);
-    //     if (slope > 0 && slope != 0) {
-    //         for (size_t x = pair.second.first - 3; x <= endX + 3; x++) {
-    //             for (size_t y = pair.second.second - 3; y <= endY + 3; y+= slope*x) {
-    //                 png->getPixel(x, y).h = 0;
-    //                 png->getPixel(x, y).s = 0;
-    //                 png->getPixel(x, y).l = 0;
-    //                 png->getPixel(x, y).a = 1;
-    //             }
-    //         }
-    //     }
+    for (unsigned int i = 0; i < edges.size(); i++) {
+        StopPoint destination = edges[i].getEndPoint();
+        double endY = pointsMap[destination].second;
+        double endX = pointsMap[destination].first;
         
-    //     if (i == 10) {
-    //         break;
-    //     }
-    // }
+        double slope = (double)(endY - pair.second.second)/ (endX - pair.second.first);
 
+        if (endY == pair.second.second) {
+            size_t y = endY;
+            if (endX > pair.second.first) {
+                for (size_t x = pair.second.first; x <= endX; x++) {
+                    HSLAPixel & pixel = png->getPixel(x, y);
+                    pixel.h = 94;
+                    pixel.s = 0.91;
+                    pixel.l = 0.57;
+                    pixel.a = 1;
+                }
+            } else if (endX < pair.second.first) {
+                for (size_t x = pair.second.first; x >= endX; x--) {
+                    HSLAPixel & pixel = png->getPixel(x, y);
+                    pixel.h = 94;
+                    pixel.s = 0.91;
+                    pixel.l = 0.57;
+                    pixel.a = 1;
+                }
+            }
+        } else if (endX == pair.second.first) {
+            size_t x = endX;
+            if (endY > pair.second.second) {
+                for (size_t y = pair.second.second; y <= endY; y++) {
+                    HSLAPixel & pixel = png->getPixel(x, y);
+                    pixel.h = 180;
+                    pixel.s = 1;
+                    pixel.l = 0.50;
+                    pixel.a = 1;
+                }
+            } else if (endY < pair.second.second) {
+                for (size_t y = pair.second.second; y >= endY; y--) {
+                    HSLAPixel & pixel = png->getPixel(x, y);
+                    pixel.h = 180;
+                    pixel.s = 1;
+                    pixel.l = 0.50;
+                    pixel.a = 1;
+                }
+            }
+        } else if (endX > pair.second.first && endY > pair.second.second) {
+            size_t y = pair.second.second;
+            size_t b = endY - (endX*slope);
+            for (size_t x = pair.second.first; x <= endX; x++) {
+                if (y <= endY) {
+                    HSLAPixel & pixel = png->getPixel(x, y);
+                    pixel.h = 318;
+                    pixel.s = 0.99;
+                    pixel.l = 0.5;
+                    pixel.a = 1;
+                    y = slope*x + b;
+                }
+            }
+        } else if (endX < pair.second.first && endY < pair.second.second) {
+            size_t y = endY;
+            size_t b = endY - (endX*slope);
+            for (size_t x = endX; x <= pair.second.first; x++) {
+                if (y <= pair.second.second) {
+                    HSLAPixel & pixel = png->getPixel(x, y);
+                    pixel.h = 11;
+                    pixel.s = 0.84;
+                    pixel.l = 0.51;
+                    pixel.a = 1;
+                    y = slope*x + b;
+                }
+            }
+        } else if (endX > pair.second.first && endY < pair.second.second) {
+            size_t y = endY;
+            size_t b = endY - (endX*slope);
+            for (size_t x = pair.second.first; x <= endX; x++) {
+                if (y <= pair.second.second) {
+                    HSLAPixel & pixel = png->getPixel(x, y);
+                    pixel.h = 0;
+                    pixel.s = 0;
+                    pixel.l = 0;
+                    pixel.a = 1;
+                    y = slope*x + b;
+                }
+            }
+        } else {
+            size_t y = pair.second.second;
+            size_t b = endY - (endX*slope);
+            for (size_t x = endX; x <= pair.second.first; x++) {
+                if (y <= endY) {
+                    HSLAPixel & pixel = png->getPixel(x, y);
+                    pixel.h = 96;
+                    pixel.s = 1;
+                    pixel.l = 0.5;
+                    pixel.a = 1;
+                    y = slope*x + b;
+                }
+            }
+        }
+    } 
 }
+
