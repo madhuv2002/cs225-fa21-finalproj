@@ -76,7 +76,7 @@ double Visualizer::calculateWeight(StopPoint point) {
 }
 
 cs225::PNG* Visualizer::draw() {
-    cs225::PNG* png = new cs225::PNG(endpoint.first  - origin.first, endpoint.second - origin.second);
+    png = new cs225::PNG(endpoint.first  - origin.first, endpoint.second - origin.second);
     for (auto pair : pointsMap) {
         //cout << pair.second.first << " " << pair.second.second <<  endl;
         for (size_t x = pair.second.first - 10; x <= pair.second.first + 10; x++) {
@@ -87,37 +87,37 @@ cs225::PNG* Visualizer::draw() {
                 png->getPixel(x, y).a = 1;
             }
         }
-        //drawEdges(pair, png);
+        drawEdges(pair);
     }
 
     return png;
 }
 
-void Visualizer::drawEdges(std::pair<StopPoint, std::pair<double, double>> pair, cs225::PNG* png) {
+void Visualizer::drawEdges(std::pair<StopPoint, std::pair<double, double>> pair) {
     vector<Edge> edges = vertexMap[pair.first.getStopID()].second;
-     // cout << routeMap.getVertexMap().size() << endl;
+     cout << edges.size() << endl;
     
-    for (unsigned int i = 0; i < edges.size(); i++) {
-        cout << edges.size() << endl;
-        StopPoint destination = edges[i].getEndPoint();
-        double endY = pointsMap.at(destination).second;
-        double endX = pointsMap.at(destination).first;
-        //double dist = sqrt(pow((pointsMap[edges.getEndPoint()].first - pointsMap[edges.getStartPoint()].first), 2.0) + pow((pointsMap[edges.getEndPoint()].first - pointsMap[edges.getStartPoint()].second), 2.0));
-        double slope = (double)(endY - pair.second.second)/ (endX - pair.second.first);
-        if (slope > 0 && slope != 0) {
-            for (size_t x = pair.second.first - 3; x <= endX + 3; x++) {
-                for (size_t y = pair.second.second - 3; y <= endY + 3; y+= slope*x) {
-                    png->getPixel(x, y).h = 0;
-                    png->getPixel(x, y).s = 0;
-                    png->getPixel(x, y).l = 0;
-                    png->getPixel(x, y).a = 1;
-                }
-            }
-        }
+    // for (unsigned int i = 0; i < edges.size(); i++) {
+    //     cout << edges.size() << endl;
+    //     StopPoint destination = edges[i].getEndPoint();
+    //     double endY = pointsMap.at(destination).second;
+    //     double endX = pointsMap.at(destination).first;
+    //     //double dist = sqrt(pow((pointsMap[edges.getEndPoint()].first - pointsMap[edges.getStartPoint()].first), 2.0) + pow((pointsMap[edges.getEndPoint()].first - pointsMap[edges.getStartPoint()].second), 2.0));
+    //     double slope = (double)(endY - pair.second.second)/ (endX - pair.second.first);
+    //     if (slope > 0 && slope != 0) {
+    //         for (size_t x = pair.second.first - 3; x <= endX + 3; x++) {
+    //             for (size_t y = pair.second.second - 3; y <= endY + 3; y+= slope*x) {
+    //                 png->getPixel(x, y).h = 0;
+    //                 png->getPixel(x, y).s = 0;
+    //                 png->getPixel(x, y).l = 0;
+    //                 png->getPixel(x, y).a = 1;
+    //             }
+    //         }
+    //     }
         
-        if (i == 10) {
-            break;
-        }
-    }
+    //     if (i == 10) {
+    //         break;
+    //     }
+    // }
 
 }
