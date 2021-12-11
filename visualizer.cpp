@@ -87,7 +87,7 @@ cs225::PNG* Visualizer::draw() {
                 png->getPixel(x, y).a = 1;
             }
         }
-        //drawEdges(pair, png);
+        drawEdges(pair, png);
     }
 
     return png;
@@ -95,18 +95,33 @@ cs225::PNG* Visualizer::draw() {
 
 void Visualizer::drawEdges(std::pair<StopPoint, std::pair<double, double>> pair, cs225::PNG* png) {
     vector<Edge> edges = vertexMap[pair.first.getStopID()].second;
-     // cout << routeMap.getVertexMap().size() << endl;
+    // cout << edges.size() << endl;
     
     for (unsigned int i = 0; i < edges.size(); i++) {
-        cout << edges.size() << endl;
+        
         StopPoint destination = edges[i].getEndPoint();
+
         double endY = pointsMap.at(destination).second;
         double endX = pointsMap.at(destination).first;
-        //double dist = sqrt(pow((pointsMap[edges.getEndPoint()].first - pointsMap[edges.getStartPoint()].first), 2.0) + pow((pointsMap[edges.getEndPoint()].first - pointsMap[edges.getStartPoint()].second), 2.0));
+
+        
         double slope = (double)(endY - pair.second.second)/ (endX - pair.second.first);
-        if (slope > 0 && slope != 0) {
-            for (size_t x = pair.second.first - 3; x <= endX + 3; x++) {
-                for (size_t y = pair.second.second - 3; y <= endY + 3; y+= slope*x) {
+        // cout << slope << endl;
+        if (slope == 0) {
+            size_t y = endY;
+            if (endX > pair.second.first) {
+                cout << y << endl;
+                for (size_t x = pair.second.first; x <= endX; x++) { 
+                    
+                    png->getPixel(x, y).h = 0;
+                    png->getPixel(x, y).s = 0;
+                    png->getPixel(x, y).l = 0;
+                    png->getPixel(x, y).a = 1;
+                }
+            } else {
+                cout << << y << endl;
+                for (size_t x = endX; x <= pair.second.first; x++) { 
+                    
                     png->getPixel(x, y).h = 0;
                     png->getPixel(x, y).s = 0;
                     png->getPixel(x, y).l = 0;
@@ -114,10 +129,47 @@ void Visualizer::drawEdges(std::pair<StopPoint, std::pair<double, double>> pair,
                 }
             }
         }
-        
-        if (i == 10) {
-            break;
-        }
+        // if (endX > pair.second.first) {
+        //     for (size_t x = pair.second.first - 3; x <= endX + 3; x++) {
+        //         if (endY > pair.second.second) {
+        //             for (size_t y = pair.second.second - 3; y <= endY + 3; y+= slope*x) {
+                        
+        //                 png->getPixel(x, y).h = 0;
+        //                 png->getPixel(x, y).s = 0;
+        //                 png->getPixel(x, y).l = 0;
+        //                 png->getPixel(x, y).a = 1;
+        //             }
+        //         } else {
+        //             for (size_t y = pair.second.second + 3; y >= endY - 3; y += slope*x) {
+                        
+        //                 png->getPixel(x, y).h = 0;
+        //                 png->getPixel(x, y).s = 0;
+        //                 png->getPixel(x, y).l = 0;
+        //                 png->getPixel(x, y).a = 1;
+        //             }
+        //         }
+        //     }
+        // } else {
+        //     for (size_t x = pair.second.first + 3; x >= endX - 3; x--) {
+        //         if (endY > pair.second.second) {
+        //             for (size_t y = pair.second.second - 3; y <= endY + 3; y+= slope*x) {
+                        
+        //                 png->getPixel(x, y).h = 0;
+        //                 png->getPixel(x, y).s = 0;
+        //                 png->getPixel(x, y).l = 0;
+        //                 png->getPixel(x, y).a = 1;
+        //             }
+        //         } else {
+        //             for (size_t y = pair.second.second + 3; y >= endY - 3; y += slope*x) {
+                        
+        //                 png->getPixel(x, y).h = 0;
+        //                 png->getPixel(x, y).s = 0;
+        //                 png->getPixel(x, y).l = 0;
+        //                 png->getPixel(x, y).a = 1;
+        //             }
+        //         }
+        //     }
+        // }
     }
 
 }

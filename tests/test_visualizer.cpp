@@ -11,7 +11,6 @@ using namespace std;
 TEST_CASE("Visualizer tests") {
     RouteMap route;
     route.loadNode("./assets/stops.csv");
-    map<string, pair<StopPoint, vector<Edge>>> vertexMap = route.getVertexMap();
     route.loadEdges();
     
     Visualizer v;
@@ -43,8 +42,8 @@ TEST_CASE("Visualizer tests") {
         
     }
 
-    cs225::PNG* png = v.draw();
-    png->writeToFile("map.png");
-    delete png;
+    // cs225::PNG* png = v.draw();
+    // png->writeToFile("map.png");
+    // delete png;
 
 }
