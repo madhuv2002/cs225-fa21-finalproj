@@ -2,6 +2,11 @@
 #include <limits.h>
 
 void Visualizer::findOrigin() {
+    minLat = INT_MAX;
+    minLon = INT_MAX; 
+
+    maxLat = INT_MIN;
+    maxLon = INT_MIN;
      for (auto pair : vertexMap) {
          StopPoint stop = pair.second.first;
          if (stop.getStopLatitude() < minLat && stop.getStopLatitude() != 0) {
@@ -93,7 +98,7 @@ cs225::PNG* Visualizer::draw() {
     return png;
 }
 
-void Visualizer::drawEdges(std::pair<StopPoint, std::pair<double, double>> pair) {
+void Visualizer::drawEdges(pair<StopPoint, pair<double, double>> pair) {
     vector<Edge> edges = vertexMap[pair.first.getStopID()].second;
     
     for (unsigned int i = 0; i < edges.size(); i++) {
@@ -102,7 +107,7 @@ void Visualizer::drawEdges(std::pair<StopPoint, std::pair<double, double>> pair)
         double endX = pointsMap[destination].first;
         
         double slope = (double)(endY - pair.second.second)/ (endX - pair.second.first);
-
+        // cout << slope << endl;
         // horizontal lines
         if (endY == pair.second.second) {
             size_t y = endY;

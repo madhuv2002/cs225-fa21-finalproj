@@ -24,12 +24,12 @@ class Visualizer {
     void findOrigin();
     void calculateMinDistance();
     double calculateWeight(StopPoint point);
-    void drawEdges(std::pair<StopPoint, std::pair<double, double>> pair);
+    void drawEdges(pair<StopPoint, pair<double, double>> pair);
     void drawLine(size_t startX, size_t endX, size_t startY, size_t endY, double slope, double b, char parse);
 
     RouteMap routeMap;
     map<string, pair<StopPoint, vector<Edge>>> vertexMap;
-    map<StopPoint, std::pair<double, double>> pointsMap;
+    map<StopPoint, pair<double, double>> pointsMap;
 
     cs225::PNG* png;
 
@@ -39,9 +39,8 @@ class Visualizer {
     std::pair<double, double> scaleFactor;
     std::pair<double, double> displacement;
 
-    double minLat = INT_MAX;
-    double minLon = INT_MAX; 
-
-    double maxLat = INT_MIN;
-    double maxLon = INT_MIN;
+    double minLat;
+    double minLon;
+    double maxLat;
+    double maxLon;
 };
