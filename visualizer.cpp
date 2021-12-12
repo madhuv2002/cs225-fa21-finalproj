@@ -60,8 +60,9 @@ void Visualizer::findLocation(RouteMap map) {
     for (auto pair : vertexMap) {
         StopPoint stop = pair.second.first;
         std::pair<double, double> point;
-        point.second = ((stop.getStopLatitude() - origin.second)*scaleFactor.second) + displacement.second;
+        // flip over x axis
         point.first = ((stop.getStopLongitude() - origin.first)*scaleFactor.first) + displacement.first;
+        point.second = (endpoint.second - origin.second) - (((stop.getStopLatitude() - origin.second)*scaleFactor.second) + displacement.second);
         if (stop.getStopLatitude() != 0 && stop.getStopLongitude() != 0) {
             pointsMap.insert({stop, point});
         }
