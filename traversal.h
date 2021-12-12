@@ -12,11 +12,11 @@ using namespace std;
 
 class Traversal {
     public:
-
+        vector<Edge> findShortestPath(string s, string e);
     private:
         RouteMap route;
 
-       map<string, string> BFS(string s);
-       // map<string, string> Dijkstras(string s);
+        vector<string> BFS(string s);
+        map<string, string> Dijkstras(string s);
         
 };
