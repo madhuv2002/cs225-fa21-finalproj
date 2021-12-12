@@ -95,7 +95,6 @@ cs225::PNG* Visualizer::draw() {
 
 void Visualizer::drawEdges(std::pair<StopPoint, std::pair<double, double>> pair) {
     vector<Edge> edges = vertexMap[pair.first.getStopID()].second;
-    //cout << edges.size() << endl;
     
     for (unsigned int i = 0; i < edges.size(); i++) {
         StopPoint destination = edges[i].getEndPoint();
@@ -104,8 +103,10 @@ void Visualizer::drawEdges(std::pair<StopPoint, std::pair<double, double>> pair)
         
         double slope = (double)(endY - pair.second.second)/ (endX - pair.second.first);
 
+        // horizontal lines
         if (endY == pair.second.second) {
             size_t y = endY;
+            // in positive direction
             if (endX > pair.second.first) {
                 for (size_t x = pair.second.first; x <= endX; x++) {
                     HSLAPixel & pixel = png->getPixel(x, y);
@@ -114,6 +115,7 @@ void Visualizer::drawEdges(std::pair<StopPoint, std::pair<double, double>> pair)
                     pixel.l = 0.57;
                     pixel.a = 1;
                 }
+            // negative direction
             } else if (endX < pair.second.first) {
                 for (size_t x = pair.second.first; x >= endX; x--) {
                     HSLAPixel & pixel = png->getPixel(x, y);
@@ -123,8 +125,10 @@ void Visualizer::drawEdges(std::pair<StopPoint, std::pair<double, double>> pair)
                     pixel.a = 1;
                 }
             }
+        // vertical lines
         } else if (endX == pair.second.first) {
             size_t x = endX;
+            // postive direction
             if (endY > pair.second.second) {
                 for (size_t y = pair.second.second; y <= endY; y++) {
                     HSLAPixel & pixel = png->getPixel(x, y);
@@ -133,6 +137,7 @@ void Visualizer::drawEdges(std::pair<StopPoint, std::pair<double, double>> pair)
                     pixel.l = 0.50;
                     pixel.a = 1;
                 }
+            // negative direction
             } else if (endY < pair.second.second) {
                 for (size_t y = pair.second.second; y >= endY; y--) {
                     HSLAPixel & pixel = png->getPixel(x, y);
@@ -142,6 +147,7 @@ void Visualizer::drawEdges(std::pair<StopPoint, std::pair<double, double>> pair)
                     pixel.a = 1;
                 }
             }
+        // positive slopes in positive direction
         } else if (endX > pair.second.first && endY > pair.second.second) {
             size_t y = pair.second.second;
             size_t b = endY - (endX*slope);
@@ -155,6 +161,8 @@ void Visualizer::drawEdges(std::pair<StopPoint, std::pair<double, double>> pair)
                     y = slope*x + b;
                 }
             }
+                
+        // postive slopes in negative direction
         } else if (endX < pair.second.first && endY < pair.second.second) {
             size_t y = endY;
             size_t b = endY - (endX*slope);
@@ -168,6 +176,7 @@ void Visualizer::drawEdges(std::pair<StopPoint, std::pair<double, double>> pair)
                     y = slope*x + b;
                 }
             }
+        // negative slopes in postive y direction
         } else if (endX > pair.second.first && endY < pair.second.second) {
             size_t y = endY;
             size_t b = endY - (endX*slope);
@@ -181,9 +190,11 @@ void Visualizer::drawEdges(std::pair<StopPoint, std::pair<double, double>> pair)
                     y = slope*x + b;
                 }
             }
+        // negative slopes in negative y direction
         } else {
             size_t y = pair.second.second;
             size_t b = endY - (endX*slope);
+            bool enteredLoop = false;
             for (size_t x = endX; x <= pair.second.first; x++) {
                 if (y <= endY) {
                     HSLAPixel & pixel = png->getPixel(x, y);
@@ -195,6 +206,30 @@ void Visualizer::drawEdges(std::pair<StopPoint, std::pair<double, double>> pair)
                 }
             }
         }
-    } 
+    }
 }
 
+void Visualizer::drawLine(size_t startX, size_t endX, size_t startY, size_t endY, double slope, double b, char parse) {
+    if (parse == 'x') {
+        size_t y = startY;
+        for (size_t x = startX; x <= endX; x++) {
+            if (y <= endY) {
+                HSLAPixel & pixel = png->getPixel(x, y);
+                pixel.h = 0;
+                pixel.s = 0;
+                pixel.l = 0;
+                pixel.a = 1;
+                y = slope*x + b;
+            }
+        }
+    } else {
+        size_t x = startX;
+        for (size_t y = startY; y <= endY; y++) {
+            HSLAPixel & pixel = png->getPixel(x, y);
+            pixel.h = 180;
+            pixel.s = 1;
+            pixel.l = 0.50;
+            pixel.a = 1;
+        }
+    }
+}

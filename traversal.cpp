@@ -22,6 +22,7 @@ vector<Edge> Traversal::findShortestPath(string s, string e) {
         }
         // path.push_back();
     }
+    return path;
 }
 
 vector<string> Traversal::BFS(string s) {
