@@ -25,6 +25,7 @@ class Visualizer {
     void calculateMinDistance();
     double calculateWeight(StopPoint point);
     void drawEdges(std::pair<StopPoint, std::pair<double, double>> pair);
+    void drawLine(size_t startX, size_t endX, size_t startY, size_t endY, double slope, double b, char parse);
 
     RouteMap routeMap;
     map<string, pair<StopPoint, vector<Edge>>> vertexMap;
