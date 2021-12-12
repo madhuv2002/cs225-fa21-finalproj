@@ -44,21 +44,26 @@ vector<string> Traversal::BFS(string s) {
     q.push(s);
 
     vector<string> r;
+    cout << visited.size() << endl;
 
     while (!q.empty()) {
         s = q.front();
         r.push_back(s);
         q.pop();
-        cout << route_.getVertexMap()[s].second.size() << endl;
 
         for (unsigned idx = 0; idx < route_.getVertexMap()[s].second.size(); idx++) {
-            string i = route_.getVertexMap()[s].second[idx].getStartPoint().getStopName();
-            cout << i << endl;
+            string i = route_.getVertexMap()[s].second[idx].getEndPoint().getStopID();
+            
             if (!visited[i]) {
-                
                 visited[i] = true;
                 q.push(i);
             }
+        }
+    }
+
+    for (auto pair: visited) {
+        if (!pair.second) {
+            cout << pair.first << endl;
         }
     }
 
