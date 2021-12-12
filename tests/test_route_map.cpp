@@ -38,9 +38,11 @@ TEST_CASE("RouteMap tests") {
     }
 
     SECTION("First edge weight") {
+        cout << vertexMap["1STSMR:4"].second[1].getName() << endl;
         REQUIRE(vertexMap["1STSMR:4"].second.size() > 0);
         REQUIRE(edgeMap["1STSMR:41STHZLWD:41 YELLOW ALT"].getWeight() == 0.5);
-
+        REQUIRE(vertexMap["1STSMR:4"].second[0].getEndPoint().getStopID() == "1STHZLWD:4");
+        REQUIRE(vertexMap["1STSMR:4"].second[1].getEndPoint().getStopID() == "1STIHOTEL:1");
     }
 
     SECTION("Last edge weight") {

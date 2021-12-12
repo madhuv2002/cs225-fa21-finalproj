@@ -1,12 +1,17 @@
 #include "traversal.h"
 #include <queue>
 #include <string>
+#include <algorithm>
 #include <limits.h>
+
+Traversal::Traversal(RouteMap route) {
+    route_ = route;
+}
 
 vector<Edge> Traversal::findShortestPath(string s, string e) {
     vector<Edge> path;
     map<string, string> parent = Dijkstras(s);
-    map<string, pair<StopPoint, vector<Edge>>> vertexMap = route.getVertexMap();
+    map<string, pair<StopPoint, vector<Edge>>> vertexMap = route_.getVertexMap();
     string current = e;
     while (true) {
         string p = parent[current];
@@ -17,25 +22,20 @@ vector<Edge> Traversal::findShortestPath(string s, string e) {
                 break;
             }
         }
+        current = p;
         if (p == s) {
             break;
         }
-        // path.push_back();
     }
+    reverse(path.begin(), path.end());
     return path;
 }
 
 vector<string> Traversal::BFS(string s) {
     map<string, bool> visited;
 
-    map<string, string> parent;
-    map<string, double> distance;
-
-    for (auto pair: route.getVertexMap()) {
+    for (auto pair: route_.getVertexMap()) {
         visited[pair.first] = false;
-
-        parent[pair.first] = "";
-        distance[pair.first] = INT_MAX;
     }
 
     queue<string> q;
@@ -44,16 +44,18 @@ vector<string> Traversal::BFS(string s) {
     q.push(s);
 
     vector<string> r;
-    distance[s] = 0;
 
     while (!q.empty()) {
         s = q.front();
         r.push_back(s);
         q.pop();
+        cout << route_.getVertexMap()[s].second.size() << endl;
 
-        for (Edge edge: route.getVertexMap()[s].second) {
-            string i = edge.getStartPoint().getStopName();
+        for (unsigned idx = 0; idx < route_.getVertexMap()[s].second.size(); idx++) {
+            string i = route_.getVertexMap()[s].second[idx].getStartPoint().getStopName();
+            cout << i << endl;
             if (!visited[i]) {
+                
                 visited[i] = true;
                 q.push(i);
             }
@@ -68,7 +70,7 @@ map<string, string> Traversal::Dijkstras(string s) {
     map<string, string> parent;
     map<string, double> distance;
     
-    for (auto v : route.getVertexMap()) {
+    for (auto v : route_.getVertexMap()) {
         parent[v.first] = "";
         distance[v.first] = INT_MAX;
     }
@@ -81,7 +83,7 @@ map<string, string> Traversal::Dijkstras(string s) {
         string temp = queue.front();
         queue.erase(queue.begin());
         
-        for (Edge edge: route.getVertexMap()[temp].second) {
+        for (Edge edge: route_.getVertexMap()[temp].second) {
             string i = edge.getStartPoint().getStopName();
             if (edge.getWeight() + distance[s] < distance[i]) {
                 distance[i] = edge.getWeight() + distance[temp];

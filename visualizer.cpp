@@ -25,11 +25,11 @@ void Visualizer::findOrigin() {
              maxLon = stop.getStopLongitude();
          }
      }
-     origin = make_pair(minLat, minLon);
+     origin = make_pair(minLon, minLat);
 
      // find the scale factor 
-    scaleFactor.first = (double) 4000 / (maxLat - minLat);
-    scaleFactor.second = (double) 5000 / (maxLon - minLon);
+    scaleFactor.second = (double) 5000 / (maxLat - minLat);
+    scaleFactor.first = (double) 5000 / (maxLon - minLon);
 }
 
 void Visualizer::calculateMinDistance() {
@@ -37,13 +37,13 @@ void Visualizer::calculateMinDistance() {
 
     for (auto pair : vertexMap) {
         StopPoint stop = pair.second.first;
-        double dist = sqrt(pow((stop.getStopLatitude() - origin.first), 2.0) + 
-                            pow((stop.getStopLongitude() - origin.second), 2.0));
+        double dist = sqrt(pow((stop.getStopLatitude() - origin.second), 2.0) + 
+                            pow((stop.getStopLongitude() - origin.first), 2.0));
 
         if (dist < minDistance && dist > 0) {
             minDistance = dist;
-            displacement.first = (stop.getStopLatitude() - origin.first)*scaleFactor.first;
-            displacement.second = (stop.getStopLongitude() - origin.second)*scaleFactor.second;
+            displacement.second = (stop.getStopLatitude() - origin.second)*scaleFactor.second;
+            displacement.first = (stop.getStopLongitude() - origin.first)*scaleFactor.first;
         }
     }
 }
@@ -58,15 +58,16 @@ void Visualizer::findLocation(RouteMap map) {
     calculateMinDistance();
 
     //set endpoint
-    endpoint.first = ((maxLat - origin.first)*scaleFactor.first) + (1.25*displacement.first);
-    endpoint.second = ((maxLon - origin.second)*scaleFactor.second) + (1.25*displacement.second);
+    endpoint.second = ((maxLat - origin.second)*scaleFactor.second) + (1.25*displacement.second);
+    endpoint.first = ((maxLon - origin.first)*scaleFactor.first) + (1.25*displacement.first);
     
     // set the locations 
     for (auto pair : vertexMap) {
         StopPoint stop = pair.second.first;
         std::pair<double, double> point;
-        point.first = ((stop.getStopLatitude() - origin.first)*scaleFactor.first) + displacement.first;
-        point.second = ((stop.getStopLongitude() - origin.second)*scaleFactor.second) + displacement.second;
+        // flip over x axis
+        point.first = ((stop.getStopLongitude() - origin.first)*scaleFactor.first) + displacement.first;
+        point.second = (endpoint.second - origin.second) - (((stop.getStopLatitude() - origin.second)*scaleFactor.second) + displacement.second);
         if (stop.getStopLatitude() != 0 && stop.getStopLongitude() != 0) {
             pointsMap.insert({stop, point});
         }
