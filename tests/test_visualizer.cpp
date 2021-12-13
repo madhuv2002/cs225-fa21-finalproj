@@ -18,18 +18,18 @@ TEST_CASE("Visualizer tests") {
     v.findLocation(route);
 
     SECTION("Check for accurate origin") {
-        REQUIRE(v.origin.first == 40.048065);
-        REQUIRE(v.origin.second == -88.322875);
+        REQUIRE(v.origin.first == -88.322875);
+        REQUIRE(v.origin.second == 40.048065);
     }
 
     SECTION("Check for accurate displacement") {
-        REQUIRE(v.displacement.first == Approx(911.6414090773));
-        REQUIRE(v.displacement.second == Approx(425.9858424246));
+        REQUIRE(v.displacement.first == Approx(425.9858424246));
+        REQUIRE(v.displacement.second == Approx(1139.5517613466));
     }
 
     SECTION("Check for accurate endpoints") {
-        REQUIRE(v.endpoint.first == Approx(5139.55));
-        REQUIRE(v.endpoint.second == Approx(5532.48));
+        REQUIRE(v.endpoint.first == Approx(5532.48));
+        REQUIRE(v.endpoint.second == Approx(6424.4397016833));
     }
 
     SECTION("Check for accurate location map") {
@@ -39,11 +39,9 @@ TEST_CASE("Visualizer tests") {
             REQUIRE(pair.second.second > v.origin.second);
             REQUIRE(pair.second.second < v.endpoint.second);
         }
-        
     }
 
     cs225::PNG* png = v.draw();
-    png->writeToFile("map.png");
+    png->writeToFile("testmap.png");
     delete png;
-
 }

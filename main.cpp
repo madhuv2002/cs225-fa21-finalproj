@@ -11,8 +11,7 @@ int main() {
     RouteMap route;
     route.loadNode("./assets/stops.csv");
     route.loadEdges();
-    map<string, pair<StopPoint, vector<Edge>>> vertexMap = route.getVertexMap();
-    cout << route.getEdgeMap().size() << endl;
+    
     Visualizer v;
     v.findLocation(route);
 

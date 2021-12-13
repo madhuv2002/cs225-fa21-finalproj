@@ -17,31 +17,28 @@ using namespace std;
 
 class Visualizer {
     public:
-    // distance, set location for all the points, draw, map of node to points, 
-    // function to calculate weight of node 
-    cs225::PNG* draw();
-    void findLocation(RouteMap map);
-    void findOrigin();
-    void calculateMinDistance();
-    double calculateWeight(StopPoint point);
-    void drawEdges(std::pair<StopPoint, std::pair<double, double>> pair);
-    void drawLine(size_t startX, size_t endX, size_t startY, size_t endY, double slope, double b, char parse);
+        cs225::PNG* draw();
+        void findLocation(RouteMap map);
+        void findOrigin();
+        void calculateMinDistance();
+        void drawEdges(pair<StopPoint, pair<double, double>> pair);
+        void drawLine(size_t startX, size_t endX, size_t startY, size_t endY, double slope, double b, char parse);
 
-    RouteMap routeMap;
-    map<string, pair<StopPoint, vector<Edge>>> vertexMap;
-    map<StopPoint, std::pair<double, double>> pointsMap;
+        RouteMap routeMap;
+        map<string, pair<StopPoint, vector<Edge>>> vertexMap;
+        map<StopPoint, pair<double, double>> pointsMap;
 
-    cs225::PNG* png;
+        PNG* png;
 
-    std::pair<double, double> origin;
-    std::pair<double, double> endpoint;
+        pair<double, double> origin;
+        pair<double, double> endpoint;
 
-    std::pair<double, double> scaleFactor;
-    std::pair<double, double> displacement;
+        pair<double, double> scaleFactor;
+        pair<double, double> displacement;
 
-    double minLat = INT_MAX;
-    double minLon = INT_MAX; 
+        double minLat = INT_MAX;
+        double minLon = INT_MAX; 
 
-    double maxLat = INT_MIN;
-    double maxLon = INT_MIN;
+        double maxLat = INT_MIN;
+        double maxLon = INT_MIN;
 };
