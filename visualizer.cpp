@@ -26,8 +26,8 @@ void Visualizer::findOrigin() {
     origin = make_pair(minLon, minLat);
 
     // find the scale factor 
-    scaleFactor.first = (double) 5000 / (maxLon - minLon);
-    scaleFactor.second = (double) 5000 / (maxLat - minLat);
+    scaleFactor.first = (double) 8000 / (maxLon - minLon);
+    scaleFactor.second = (double) 8000 / (maxLat - minLat);
 }
 
 void Visualizer::calculateMinDistance() {
@@ -98,66 +98,85 @@ void Visualizer::drawEdges(pair<StopPoint, pair<double, double>> pair) {
         
         double slope = (double)(endY - pair.second.second)/ (endX - pair.second.first);
 
-        // horizontal lines green
-        if (endY == pair.second.second) {
+        // horizontal lines green work
+        if (abs(endY - pair.second.second) < 10) {
             size_t y = endY;
             // in positive direction
             if (endX > pair.second.first) {
                 for (size_t x = pair.second.first; x <= endX; x++) {
                     HSLAPixel & pixel = png->getPixel(x, y);
-                    pixel.h = 94;
-                    pixel.s = 0.91;
-                    pixel.l = 0.57;
+                    pixel.h = 23;
+                    pixel.s = 0.95;
+                    pixel.l = 0.52;
                     pixel.a = 1;
                 }
             // negative direction
             } else if (endX < pair.second.first) {
                 for (size_t x = pair.second.first; x >= endX; x--) {
                     HSLAPixel & pixel = png->getPixel(x, y);
-                    pixel.h = 94;
-                    pixel.s = 0.91;
-                    pixel.l = 0.57;
+                    pixel.h = 23;
+                    pixel.s = 0.95;
+                    pixel.l = 0.52;
                     pixel.a = 1;
                 }
             }
-        // vertical lines blue
-        } else if (endX == pair.second.first) {
+        // vertical lines blue work
+        } else if (abs(endX - pair.second.first) < 10) {
             size_t x = endX;    
             // postive direction
             if (endY > pair.second.second) {
                 for (size_t y = pair.second.second; y <= endY; y++) {
                     HSLAPixel & pixel = png->getPixel(x, y);
-                    pixel.h = 240;
-                    pixel.s = 1;
-                    pixel.l = 0.50;
+                    pixel.h = 23;
+                    pixel.s = 0.95;
+                    pixel.l = 0.52;
                     pixel.a = 1;
                 }
             // negative direction
             } else if (endY < pair.second.second) {
                 for (size_t y = pair.second.second; y >= endY; y--) {
                     HSLAPixel & pixel = png->getPixel(x, y);
-                    pixel.h = 240;
-                    pixel.s = 1;
-                    pixel.l = 0.50;
+                    pixel.h = 23;
+                    pixel.s = 0.95;
+                    pixel.l = 0.52;
                     pixel.a = 1;
                 }
             }
-        // positive slopes in positive direction pink
+        // positive slopes in positive direction
         } else if (endX > pair.second.first && endY > pair.second.second) {
+            size_t x = pair.second.first;
             size_t y = pair.second.second;
             size_t b = endY - (endX*slope);
-            
-            for (size_t x = pair.second.first; x <= endX; x++) {
-                if (y <= endY) {
-                    HSLAPixel & pixel = png->getPixel(x, y);
-                    pixel.h = 318;
-                    pixel.s = 0.99;
-                    pixel.l = 0.5;
-                    pixel.a = 1;
-                    y = slope*x + b;
+            if (slope < INT_MAX/2) {
+                for (size_t x = pair.second.first; x <= endX; x++) {
+                    if (y <= endY) {
+                        HSLAPixel & pixel = png->getPixel(x, y);
+                        pixel.h = 23;
+                        pixel.s = 0.95;
+                        pixel.l = 0.52;
+                        pixel.a = 1;
+                        y = slope*x + b;
+                    }
+                }
+            } else {
+                for (size_t y = pair.second.second; y <= endY; y++) {
+                    size_t changeX = 0;
+                    if (x <= endX) {
+                        HSLAPixel & pixel = png->getPixel(x, y);
+                        pixel.h = 23;
+                        pixel.s = 0.95;
+                        pixel.l = 0.52;
+                        pixel.a = 1;
+                        changeX++;
+                        if (changeX == slope) {
+                            x = (y - b)/slope;
+                            changeX = 0;
+                        }
+                    }
                 }
             }
-        // postive slopes in negative direction red
+            
+        // postive slopes in negative direction pink
         } else if (endX < pair.second.first && endY < pair.second.second) {
             size_t y = endY;
             size_t b = endY - (endX*slope);
@@ -165,10 +184,10 @@ void Visualizer::drawEdges(pair<StopPoint, pair<double, double>> pair) {
             for (size_t x = endX; x <= pair.second.first; x++) {
                 if (y <= pair.second.second) {
                     HSLAPixel & pixel = png->getPixel(x, y);
-                    // pixel.h = 318;
-                    // pixel.s = 0.99;
-                    // pixel.l = 0.5;
-                    // pixel.a = 1;
+                    pixel.h = 23;
+                    pixel.s = 0.95;
+                    pixel.l = 0.52;
+                    pixel.a = 1;
                     y = slope*x + b;
                 }
             }
@@ -180,14 +199,14 @@ void Visualizer::drawEdges(pair<StopPoint, pair<double, double>> pair) {
             for (size_t x = pair.second.first; x <= endX; x++) {
                 if (y >= endY) {
                     HSLAPixel & pixel = png->getPixel(x, y);
-                    pixel.h = 0;
-                    pixel.s = 0;
-                    pixel.l = 0;
+                    pixel.h = 23;
+                    pixel.s = 0.95;
+                    pixel.l = 0.52;
                     pixel.a = 1;
                     y = slope*x + b;
                 }
             }
-        // negative slopes in negative y direction light green
+        // negative slopes in negative y direction black
         } else {
             size_t y = endY;
             size_t b = endY - (endX*slope);
@@ -195,9 +214,9 @@ void Visualizer::drawEdges(pair<StopPoint, pair<double, double>> pair) {
             for (size_t x = endX; x <= pair.second.first; x++) {
                 if (y >= pair.second.first) {
                     HSLAPixel & pixel = png->getPixel(x, y);
-                    pixel.h = 0;
-                    pixel.s = 0;
-                    pixel.l = 0;
+                    pixel.h = 23;
+                    pixel.s = 0.95;
+                    pixel.l = 0.52;
                     pixel.a = 1;
                     y = slope*x + b;
                 }
