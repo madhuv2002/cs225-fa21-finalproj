@@ -18,7 +18,7 @@ void RouteMap::loadNode(string fileName) {
 
             while (count < static_cast<int>(slicedStop.size())) {
                 if (count > 3 && (count + 5) < static_cast<int>(slicedStop.size()) && !slicedStop.at(count).empty()) {
-
+                    // cout << slicedStop[count+1] << endl;
                     StopPoint stp(slicedStop[count], slicedStop[count + 1], stod(slicedStop[count + 2]),
                      stod(slicedStop[count + 3]), slicedStop[count + 4]);
                     vector<Edge> edges;
@@ -82,6 +82,12 @@ void RouteMap::loadEdges(string fileName) {
             double weight = calculateWeights(slicedTime1[1], slicedTime2[0]);
             Edge edge(name, stp1, stp2, weight, routeName);
             edgeMap.insert({name, edge});
+
+            if (vertexMap.find(slicedStop1[1]) == vertexMap.end()) {
+                cout << routeName << endl;
+                cout << slicedStop1[1] << endl;
+                cout << slicedStop2[1] << endl;
+            }
 
             vertexMap[slicedStop1[1]].second.push_back(edge);
             

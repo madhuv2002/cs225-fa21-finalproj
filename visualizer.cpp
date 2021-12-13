@@ -1,35 +1,33 @@
 #include "visualizer.h"
 #include <limits.h>
 
+using namespace std;
+using namespace cs225;
+
 void Visualizer::findOrigin() {
-    minLat = INT_MAX;
-    minLon = INT_MAX; 
+    for (auto pair : vertexMap) {
+        StopPoint stop = pair.second.first;
+        if (stop.getStopLatitude() < minLat && stop.getStopLatitude() != 0) {
+            minLat = stop.getStopLatitude();
+        }
 
-    maxLat = INT_MIN;
-    maxLon = INT_MIN;
-     for (auto pair : vertexMap) {
-         StopPoint stop = pair.second.first;
-         if (stop.getStopLatitude() < minLat && stop.getStopLatitude() != 0) {
-             minLat = stop.getStopLatitude();
-         }
+        if (stop.getStopLongitude() < minLon) {
+            minLon = stop.getStopLongitude();
+        }
 
-         if (stop.getStopLongitude() < minLon) {
-             minLon = stop.getStopLongitude();
-         }
+        if (stop.getStopLatitude() > maxLat) {
+            maxLat = stop.getStopLatitude();
+        }
 
-         if (stop.getStopLatitude() > maxLat) {
-             maxLat = stop.getStopLatitude();
-         }
+        if (stop.getStopLongitude() > maxLon && stop.getStopLongitude() != 0) {
+            maxLon = stop.getStopLongitude();
+        }
+    }
+    origin = make_pair(minLon, minLat);
 
-         if (stop.getStopLongitude() > maxLon && stop.getStopLongitude() != 0) {
-             maxLon = stop.getStopLongitude();
-         }
-     }
-     origin = make_pair(minLon, minLat);
-
-     // find the scale factor 
-    scaleFactor.second = (double) 5000 / (maxLat - minLat);
-    scaleFactor.first = (double) 5000 / (maxLon - minLon);
+    // find the scale factor 
+    scaleFactor.first = (double) 8000 / (maxLon - minLon);
+    scaleFactor.second = (double) 8000 / (maxLat - minLat);
 }
 
 void Visualizer::calculateMinDistance() {
@@ -58,8 +56,8 @@ void Visualizer::findLocation(RouteMap map) {
     calculateMinDistance();
 
     //set endpoint
-    endpoint.second = ((maxLat - origin.second)*scaleFactor.second) + (1.25*displacement.second);
     endpoint.first = ((maxLon - origin.first)*scaleFactor.first) + (1.25*displacement.first);
+    endpoint.second = ((maxLat - origin.second)*scaleFactor.second) + (1.25*displacement.second);
     
     // set the locations 
     for (auto pair : vertexMap) {
@@ -71,20 +69,12 @@ void Visualizer::findLocation(RouteMap map) {
         if (stop.getStopLatitude() != 0 && stop.getStopLongitude() != 0) {
             pointsMap.insert({stop, point});
         }
-        //cout << point.first << " " << point.second << endl;
-        //pointsMap.insert({stop, point});
     }
 }
 
-double Visualizer::calculateWeight(StopPoint point) {
-    // increment weight by the number of edges coming out of the passed stop point
-    return vertexMap[point.getStopName()].second.size();
-}
-
-cs225::PNG* Visualizer::draw() {
-    png = new cs225::PNG(endpoint.first  - origin.first, endpoint.second - origin.second);
+PNG* Visualizer::draw() {
+    png = new PNG(endpoint.first  - origin.first, endpoint.second - origin.second);
     for (auto pair : pointsMap) {
-        //cout << pair.second.first << " " << pair.second.second <<  endl;
         for (size_t x = pair.second.first - 10; x <= pair.second.first + 10; x++) {
             for (size_t y = pair.second.second - 10; y <= pair.second.second + 10; y++) {
                 png->getPixel(x, y).h = 240;
@@ -95,7 +85,6 @@ cs225::PNG* Visualizer::draw() {
         }
         drawEdges(pair);
     }
-
     return png;
 }
 
@@ -104,109 +93,130 @@ void Visualizer::drawEdges(pair<StopPoint, pair<double, double>> pair) {
     
     for (unsigned int i = 0; i < edges.size(); i++) {
         StopPoint destination = edges[i].getEndPoint();
-        double endY = pointsMap[destination].second;
         double endX = pointsMap[destination].first;
+        double endY = pointsMap[destination].second;
         
         double slope = (double)(endY - pair.second.second)/ (endX - pair.second.first);
-        // cout << slope << endl;
-        // horizontal lines
-        if (endY == pair.second.second) {
+
+        // horizontal lines green work
+        if (abs(endY - pair.second.second) < 10) {
             size_t y = endY;
             // in positive direction
             if (endX > pair.second.first) {
                 for (size_t x = pair.second.first; x <= endX; x++) {
                     HSLAPixel & pixel = png->getPixel(x, y);
-                    pixel.h = 94;
-                    pixel.s = 0.91;
-                    pixel.l = 0.57;
+                    pixel.h = 23;
+                    pixel.s = 0.95;
+                    pixel.l = 0.52;
                     pixel.a = 1;
                 }
             // negative direction
             } else if (endX < pair.second.first) {
                 for (size_t x = pair.second.first; x >= endX; x--) {
                     HSLAPixel & pixel = png->getPixel(x, y);
-                    pixel.h = 94;
-                    pixel.s = 0.91;
-                    pixel.l = 0.57;
+                    pixel.h = 23;
+                    pixel.s = 0.95;
+                    pixel.l = 0.52;
                     pixel.a = 1;
                 }
             }
-        // vertical lines
-        } else if (endX == pair.second.first) {
-            size_t x = endX;
+        // vertical lines blue work
+        } else if (abs(endX - pair.second.first) < 10) {
+            size_t x = endX;    
             // postive direction
             if (endY > pair.second.second) {
                 for (size_t y = pair.second.second; y <= endY; y++) {
                     HSLAPixel & pixel = png->getPixel(x, y);
-                    pixel.h = 180;
-                    pixel.s = 1;
-                    pixel.l = 0.50;
+                    pixel.h = 23;
+                    pixel.s = 0.95;
+                    pixel.l = 0.52;
                     pixel.a = 1;
                 }
             // negative direction
             } else if (endY < pair.second.second) {
                 for (size_t y = pair.second.second; y >= endY; y--) {
                     HSLAPixel & pixel = png->getPixel(x, y);
-                    pixel.h = 180;
-                    pixel.s = 1;
-                    pixel.l = 0.50;
+                    pixel.h = 23;
+                    pixel.s = 0.95;
+                    pixel.l = 0.52;
                     pixel.a = 1;
                 }
             }
         // positive slopes in positive direction
         } else if (endX > pair.second.first && endY > pair.second.second) {
+            size_t x = pair.second.first;
             size_t y = pair.second.second;
             size_t b = endY - (endX*slope);
-            for (size_t x = pair.second.first; x <= endX; x++) {
-                if (y <= endY) {
-                    HSLAPixel & pixel = png->getPixel(x, y);
-                    pixel.h = 318;
-                    pixel.s = 0.99;
-                    pixel.l = 0.5;
-                    pixel.a = 1;
-                    y = slope*x + b;
+            if (slope < INT_MAX/2) {
+                for (size_t x = pair.second.first; x <= endX; x++) {
+                    if (y <= endY) {
+                        HSLAPixel & pixel = png->getPixel(x, y);
+                        pixel.h = 23;
+                        pixel.s = 0.95;
+                        pixel.l = 0.52;
+                        pixel.a = 1;
+                        y = slope*x + b;
+                    }
+                }
+            } else {
+                for (size_t y = pair.second.second; y <= endY; y++) {
+                    size_t changeX = 0;
+                    if (x <= endX) {
+                        HSLAPixel & pixel = png->getPixel(x, y);
+                        pixel.h = 23;
+                        pixel.s = 0.95;
+                        pixel.l = 0.52;
+                        pixel.a = 1;
+                        changeX++;
+                        if (changeX == slope) {
+                            x = (y - b)/slope;
+                            changeX = 0;
+                        }
+                    }
                 }
             }
-                
-        // postive slopes in negative direction
+            
+        // postive slopes in negative direction pink
         } else if (endX < pair.second.first && endY < pair.second.second) {
             size_t y = endY;
             size_t b = endY - (endX*slope);
+            
             for (size_t x = endX; x <= pair.second.first; x++) {
                 if (y <= pair.second.second) {
                     HSLAPixel & pixel = png->getPixel(x, y);
-                    pixel.h = 11;
-                    pixel.s = 0.84;
-                    pixel.l = 0.51;
+                    pixel.h = 23;
+                    pixel.s = 0.95;
+                    pixel.l = 0.52;
                     pixel.a = 1;
                     y = slope*x + b;
                 }
             }
-        // negative slopes in postive y direction
+        // negative slopes in postive y direction black
         } else if (endX > pair.second.first && endY < pair.second.second) {
-            size_t y = endY;
-            size_t b = endY - (endX*slope);
-            for (size_t x = pair.second.first; x <= endX; x++) {
-                if (y <= pair.second.second) {
-                    HSLAPixel & pixel = png->getPixel(x, y);
-                    pixel.h = 0;
-                    pixel.s = 0;
-                    pixel.l = 0;
-                    pixel.a = 1;
-                    y = slope*x + b;
-                }
-            }
-        // negative slopes in negative y direction
-        } else {
             size_t y = pair.second.second;
             size_t b = endY - (endX*slope);
-            bool enteredLoop = false;
-            for (size_t x = endX; x <= pair.second.first; x++) {
-                if (y <= endY) {
+            
+            for (size_t x = pair.second.first; x <= endX; x++) {
+                if (y >= endY) {
                     HSLAPixel & pixel = png->getPixel(x, y);
-                    pixel.h = 96;
-                    pixel.s = 1;
-                    pixel.l = 0.5;
+                    pixel.h = 23;
+                    pixel.s = 0.95;
+                    pixel.l = 0.52;
+                    pixel.a = 1;
+                    y = slope*x + b;
+                }
+            }
+        // negative slopes in negative y direction black
+        } else {
+            size_t y = endY;
+            size_t b = endY - (endX*slope);
+            
+            for (size_t x = endX; x <= pair.second.first; x++) {
+                if (y >= pair.second.first) {
+                    HSLAPixel & pixel = png->getPixel(x, y);
+                    pixel.h = 23;
+                    pixel.s = 0.95;
+                    pixel.l = 0.52;
                     pixel.a = 1;
                     y = slope*x + b;
                 }

@@ -17,8 +17,6 @@ class RouteMap {
         void loadEdges();
         map<string, pair<StopPoint, vector<Edge>>> getVertexMap();
         map<string, Edge> getEdgeMap();
-        // firststopsecondstopfilename
-        //edgeMap[firststop]
 
     private:
         map<string, pair<StopPoint, vector<Edge>>> vertexMap;

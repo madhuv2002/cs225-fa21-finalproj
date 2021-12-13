@@ -13,9 +13,11 @@ vector<Edge> Traversal::findShortestPath(string s, string e) {
     map<string, string> parent = Dijkstras(s);
     map<string, pair<StopPoint, vector<Edge>>> vertexMap = route_.getVertexMap();
     string current = e;
-    while (true) {
+    
+    while (current != s) {
         string p = parent[current];
         vector<Edge> adjEdges = vertexMap[p].second;
+        
         for (Edge edge: adjEdges) {
             if (edge.getEndPoint().getStopID() == current) {
                 path.push_back(edge);
@@ -23,9 +25,6 @@ vector<Edge> Traversal::findShortestPath(string s, string e) {
             }
         }
         current = p;
-        if (p == s) {
-            break;
-        }
     }
     reverse(path.begin(), path.end());
     return path;
@@ -44,18 +43,16 @@ vector<string> Traversal::BFS(string s) {
     q.push(s);
 
     vector<string> r;
-
+    
     while (!q.empty()) {
         s = q.front();
         r.push_back(s);
         q.pop();
-        cout << route_.getVertexMap()[s].second.size() << endl;
-
+        
         for (unsigned idx = 0; idx < route_.getVertexMap()[s].second.size(); idx++) {
-            string i = route_.getVertexMap()[s].second[idx].getStartPoint().getStopName();
-            cout << i << endl;
+            string i = route_.getVertexMap()[s].second[idx].getEndPoint().getStopID();
+            
             if (!visited[i]) {
-                
                 visited[i] = true;
                 q.push(i);
             }
@@ -79,15 +76,14 @@ map<string, string> Traversal::Dijkstras(string s) {
 
     vector<string> queue = BFS(s);
 
-    for (unsigned i = 0; i < queue.size(); i++) {
-        string temp = queue.front();
-        queue.erase(queue.begin());
-        
-        for (Edge edge: route_.getVertexMap()[temp].second) {
-            string i = edge.getStartPoint().getStopName();
-            if (edge.getWeight() + distance[s] < distance[i]) {
+    for (string temp: queue) {
+        for (unsigned idx = 0; idx < route_.getVertexMap()[temp].second.size(); idx++) {
+            Edge edge = route_.getVertexMap()[temp].second[idx];
+            string i = edge.getEndPoint().getStopID();
+            
+            if (edge.getWeight() + distance[temp] < distance[i]) {
                 distance[i] = edge.getWeight() + distance[temp];
-                parent[i] = s;
+                parent[i] = temp;
             } 
         }
     }
