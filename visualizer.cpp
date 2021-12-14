@@ -26,8 +26,8 @@ void Visualizer::findOrigin() {
     origin = make_pair(minLon, minLat);
 
     // find the scale factor 
-    scaleFactor.first = (double) 8000 / (maxLon - minLon);
-    scaleFactor.second = (double) 8000 / (maxLat - minLat);
+    scaleFactor.first = (double) 5000 / (maxLon - minLon);
+    scaleFactor.second = (double) 5000 / (maxLat - minLat);
 }
 
 void Visualizer::calculateMinDistance() {
