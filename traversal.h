@@ -6,8 +6,10 @@
 #include <string>
 #include <vector>
 #include <map>
+
 #include "visualizer.h"
 #include "edge.h"
+
 using namespace std;
 
 class Traversal {
@@ -20,8 +22,4 @@ class Traversal {
 
     private:
         RouteMap route_;
-
-        
-        
-        
 };

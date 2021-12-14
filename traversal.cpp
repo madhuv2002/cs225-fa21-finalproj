@@ -1,4 +1,5 @@
 #include "traversal.h"
+
 #include <queue>
 #include <string>
 #include <algorithm>
@@ -8,7 +9,7 @@ Traversal::Traversal(RouteMap route) {
     route_ = route;
 }
 
-vector<Edge> Traversal::findShortestPath(string s, string e) {
+vector<Edge> Traversal::findShortestPath(string start, string e) {
     vector<Edge> path;
     map<string, string> parent = Dijkstras(s);
     map<string, pair<StopPoint, vector<Edge>>> vertexMap = route_.getVertexMap();
