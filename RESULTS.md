@@ -18,4 +18,4 @@ Our other goal was to find the time it takes to travel between two stops and cre
 
 Our last goal was to use BFS in order to traverse our graph. The output for this traversal can be seen in bfs.txt in this repository. 
 
-Lastly, to prove the accuracy of our algorithms and graphs, we have a fold of tests that can be run through typing in "make tests && ./test" in the terminal. 
+Lastly, to prove the accuracy of our algorithms and graphs, we have a fold of tests that can be run through typing in "make test && ./test" in the terminal. 
