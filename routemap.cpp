@@ -18,21 +18,23 @@ void RouteMap::loadNode(string fileName) {
 
             while (count < static_cast<int>(slicedStop.size())) {
                 if (count > 3 && (count + 5) < static_cast<int>(slicedStop.size()) && !slicedStop.at(count).empty()) {
-                    // cout << slicedStop[count+1] << endl;
+                    
                     StopPoint stp(slicedStop[count], slicedStop[count + 1], stod(slicedStop[count + 2]),
                      stod(slicedStop[count + 3]), slicedStop[count + 4]);
+
                     vector<Edge> edges;
-                    std::pair<StopPoint, vector<Edge>> pair;
-                    pair.first = stp;
-                    pair.second = edges;
-                    vertexMap.insert({slicedStop[count + 1], pair});
+
+                    std::pair<StopPoint, vector<Edge>> stop;
+                    stop.first = stp;
+                    stop.second = edges;
+
+                    vertexMap.insert({slicedStop[count + 1], stop});
                      
                     count += 5;
                 } else {
                     count++;
                 }
             }
-
         }
     }
     file.close();
@@ -62,32 +64,33 @@ map<string, Edge> RouteMap::getEdgeMap() {
 void RouteMap::loadEdges(string fileName) {
     ifstream file;
     file.open(fileName);
+
     if (file.is_open()) {
-        
         string line;
+
         getline(file, line);
         vector<string> slicedTime1 =  tokenize(line, ",");
+
         getline(file, line);
         vector<string> slicedStop1 = tokenize(line, ",");
+
         while (getline(file, line)) {
             vector<string> slicedTime2 =  tokenize(line, ",");
+
             getline(file, line);
             vector<string> slicedStop2 = tokenize(line, ",");
+
             string routeName = tokenize(fileName, "/")[3];
             routeName = routeName.substr(0, routeName.length() - 4);
             
             string name = slicedStop1[1] + slicedStop2[1] + routeName;
             StopPoint stp1(slicedStop1[0], slicedStop1[1], stod(slicedStop1[2]), stod(slicedStop1[3]), slicedStop1[4]);
             StopPoint stp2(slicedStop2[0], slicedStop2[1], stod(slicedStop2[2]), stod(slicedStop2[3]), slicedStop2[4]);
+
             double weight = calculateWeights(slicedTime1[1], slicedTime2[0]);
+            
             Edge edge(name, stp1, stp2, weight, routeName);
             edgeMap.insert({name, edge});
-
-            if (vertexMap.find(slicedStop1[1]) == vertexMap.end()) {
-                cout << routeName << endl;
-                cout << slicedStop1[1] << endl;
-                cout << slicedStop2[1] << endl;
-            }
 
             vertexMap[slicedStop1[1]].second.push_back(edge);
             
