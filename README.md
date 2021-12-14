@@ -9,8 +9,8 @@ Now, cd into this repository and run
 $ make
 $ ./main
 ```
-in terminal to start the program. You will be prompted to enter two bus stops - the start and end points of your trip. This will use return a shortest list of all the stops you would pass through to reach your destination depending on whether it uses BFS or Dijkstra's algorithm.
-You can also view a visual representation of all the MTD stops in the `map.png` file. 
+in terminal to start the program. You will be prompted to enter two bus stops - the start and end points of your trip. This will return the shortest list of all the stops you would pass through to reach your destination depending on whether it uses BFS or Dijkstra's algorithm.
+You can also view our visual representation of all the MTD stops in the `map.png` file. 
 
 To run tests, cd into the `tests` folder, and enter 
 ```
