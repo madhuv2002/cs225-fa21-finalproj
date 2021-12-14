@@ -43,51 +43,52 @@ vector<string> Traversal::BFS(string start) {
     visited[start] = true;
     q.push(start);
 
-    vector<string> r;
+    vector<string> bfs;
     
     while (!q.empty()) {
-        s = q.front();
-        r.push_back(s);
+        string stop = q.front();
+        bfs.push_back(stop);
         q.pop();
         
-        for (unsigned idx = 0; idx < route_.getVertexMap()[s].second.size(); idx++) {
-            string i = route_.getVertexMap()[s].second[idx].getEndPoint().getStopID();
+        for (unsigned idx = 0; idx < route_.getVertexMap()[stop].second.size(); idx++) {
+            string adjStop = route_.getVertexMap()[stop].second[idx].getEndPoint().getStopID();
             
-            if (!visited[i]) {
-                visited[i] = true;
-                q.push(i);
+            if (!visited[adjStop]) {
+                visited[adjStop] = true;
+                q.push(adjStop);
             }
         }
     }
 
-    return r;
+    return bfs;
 }
 
 
-map<string, string> Traversal::Dijkstras(string s) {
-    map<string, string> parent;
-    map<string, double> distance;
+map<string, string> Traversal::Dijkstras(string start) {
+    map<string, string> parentMap;
+    map<string, double> distanceMap;
     
-    for (auto v : route_.getVertexMap()) {
-        parent[v.first] = "";
-        distance[v.first] = INT_MAX;
+    for (auto vertex : route_.getVertexMap()) {
+        parentMap[vertex.first] = "";
+        distanceMap[vertex.first] = INT_MAX;
     }
 
-    distance[s] = 0;
+    distanceMap[start] = 0;
 
-    vector<string> queue = BFS(s);
+    vector<string> queue = BFS(start);
 
-    for (string temp: queue) {
-        for (unsigned idx = 0; idx < route_.getVertexMap()[temp].second.size(); idx++) {
-            Edge edge = route_.getVertexMap()[temp].second[idx];
-            string i = edge.getEndPoint().getStopID();
+    for (string stop: queue) {
+        for (unsigned idx = 0; idx < route_.getVertexMap()[stop].second.size(); idx++) {
+
+            Edge edge = route_.getVertexMap()[stop].second[idx];
+            string adjStop = edge.getEndPoint().getStopID();
             
-            if (edge.getWeight() + distance[temp] < distance[i]) {
-                distance[i] = edge.getWeight() + distance[temp];
-                parent[i] = temp;
+            if (edge.getWeight() + distanceMap[stop] < distanceMap[adjStop]) {
+                distanceMap[adjStop] = edge.getWeight() + distanceMap[stop];
+                parentMap[adjStop] = stop;
             } 
         }
     }
 
-    return parent;
+    return parentMap;
 }
