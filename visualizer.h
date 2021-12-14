@@ -17,28 +17,51 @@ using namespace std;
 
 class Visualizer {
     public:
-        cs225::PNG* draw();
-        void findLocation(RouteMap map);
-        void findOrigin();
-        void calculateMinDistance();
-        void drawEdges(pair<StopPoint, pair<double, double>> pair);
-        void drawLine(size_t startX, size_t endX, size_t startY, size_t endY, double slope, double b, char parse);
 
-        RouteMap routeMap;
-        map<string, pair<StopPoint, vector<Edge>>> vertexMap;
-        map<StopPoint, pair<double, double>> pointsMap;
+    /**
+     * Primary function that draws the visualization of the graph nodes and edges
+     */
+    cs225::PNG* draw();
 
-        PNG* png;
+    /**
+     * Calculates the location of every stop point from the routemap
+     * @param map
+     */
+    void findLocation(RouteMap map);
 
-        pair<double, double> origin;
-        pair<double, double> endpoint;
+    /**
+     * Helper function to find the origin of the map
+     */
+    void findOrigin();
 
-        pair<double, double> scaleFactor;
-        pair<double, double> displacement;
+    /**
+     * Helper function that calculates the minimum displacement for all the points
+     */
+    void calculateMinDistance();
 
-        double minLat = INT_MAX;
-        double minLon = INT_MAX; 
+    /**
+     * Function that draws all the edges for each stop point in routemap
+     * @param pair - pair of each stop_point to its location
+     */
+    void drawEdges(pair<StopPoint, pair<double, double>> pair);
 
-        double maxLat = INT_MIN;
-        double maxLon = INT_MIN;
+    void drawLine(size_t startX, size_t endX, size_t startY, size_t endY, double slope, double b, char parse);
+
+    RouteMap routeMap;
+    map<string, pair<StopPoint, vector<Edge>>> vertexMap;
+    map<StopPoint, pair<double, double>> pointsMap;
+
+    PNG* png;
+
+    pair<double, double> origin;
+    pair<double, double> endpoint;
+
+    pair<double, double> scaleFactor;
+    pair<double, double> displacement;
+
+    double minLat = INT_MAX;
+    double minLon = INT_MAX; 
+
+    double maxLat = INT_MIN;
+    double maxLon = INT_MIN;
 };

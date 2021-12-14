@@ -14,11 +14,30 @@ using namespace std;
 
 class Traversal {
     public:
-        Traversal(RouteMap route);
+    /**
+     * Constructor that creates a traversal using the created graph
+     * @param routemap 
+     */
+    Traversal(RouteMap route);
 
-        vector<Edge> findShortestPath(string s, string e);
-        vector<string> BFS(string s);
-        map<string, string> Dijkstras(string s);
+    /**
+     * Finds the shortest path between two points using Dijkstra's
+     * @param s - starting point
+     * @param e - ending point
+     */
+    vector<Edge> findShortestPath(string s, string e);
+
+    /**
+     * BFS traversal from a specific point
+     * @param s - point to start the traversal
+     */    
+    vector<string> BFS(string s);
+
+    /**
+     * Dijkstra's algorithm from the starting point
+     * @param s - start
+     */
+    map<string, string> Dijkstras(string s);
 
     private:
         RouteMap route_;
