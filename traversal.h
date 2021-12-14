@@ -6,8 +6,10 @@
 #include <string>
 #include <vector>
 #include <map>
+
 #include "visualizer.h"
 #include "edge.h"
+
 using namespace std;
 
 class Traversal {
@@ -38,6 +40,5 @@ class Traversal {
     map<string, string> Dijkstras(string s);
 
     private:
-    RouteMap route_;
-
+        RouteMap route_;
 };

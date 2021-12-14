@@ -1,4 +1,5 @@
 #include "traversal.h"
+
 #include <queue>
 #include <string>
 #include <algorithm>
@@ -8,13 +9,13 @@ Traversal::Traversal(RouteMap route) {
     route_ = route;
 }
 
-vector<Edge> Traversal::findShortestPath(string s, string e) {
+vector<Edge> Traversal::findShortestPath(string start, string end) {
     vector<Edge> path;
-    map<string, string> parent = Dijkstras(s);
+    map<string, string> parent = Dijkstras(start);
     map<string, pair<StopPoint, vector<Edge>>> vertexMap = route_.getVertexMap();
-    string current = e;
+    string current = end;
     
-    while (current != s) {
+    while (current != start) {
         string p = parent[current];
         vector<Edge> adjEdges = vertexMap[p].second;
         
@@ -30,7 +31,7 @@ vector<Edge> Traversal::findShortestPath(string s, string e) {
     return path;
 }
 
-vector<string> Traversal::BFS(string s) {
+vector<string> Traversal::BFS(string start) {
     map<string, bool> visited;
 
     for (auto pair: route_.getVertexMap()) {
@@ -39,8 +40,8 @@ vector<string> Traversal::BFS(string s) {
 
     queue<string> q;
 
-    visited[s] = true;
-    q.push(s);
+    visited[start] = true;
+    q.push(start);
 
     vector<string> r;
     
